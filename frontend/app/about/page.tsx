@@ -16,13 +16,13 @@ export default function About() {
         <li><strong>Species and elements:</strong> accepted WCVP names (Kew), the names as published, the element, a tier (T1 to T3), the class and threshold class of the strongest evidence, and the scope of the source.</li>
         <li><strong>Evidence:</strong> every citation behind a statement, with PMID or DOI links, and flags for rows from a source that could not be read, rows marked as not confirmed in the source, and rows whose citation was inferred.</li>
         <li><strong>Environment summaries:</strong> for species with at least 20 native occurrence cells, the median and quartiles of mean annual temperature (CHELSA bio1), annual precipitation (CHELSA bio12) and soil pH (SoilGrids). Other species are shown as &quot;insufficient records&quot; and have no statistics.</li>
-        <li><strong>Counts and downloads:</strong> unique species per element by tier, the figures of the paper, and the release files with checksums.</li>
+        <li><strong>Counts and downloads:</strong> unique species per element by tier and the release files with checksums.</li>
       </ul>
       <h2>Functions of the web interface</h2>
       <ul className="list">
         <li><Link href="/browse" className="text-brand underline">Browse</Link>: search by name, filter by element, tier, scope, family and rank; the element, family and tier shortcuts in the sidebar are saved filters.</li>
         <li>Species pages: names, evidence with links, tier and scope per element, and the environment summary.</li>
-        <li><Link href="/statistics" className="text-brand underline">Statistics</Link>: Figures 2 to 5 of the paper. <Link href="/downloads" className="text-brand underline">Downloads</Link> and the <Link href="/api-docs" className="text-brand underline">API</Link> give the same data as files and as JSON.</li>
+        <li><Link href="/downloads" className="text-brand underline">Downloads</Link> and the <Link href="/api-docs" className="text-brand underline">API</Link> give the same data as files and as JSON.</li>
       </ul>
       <h2>Usage cases</h2>
       <ul className="list">

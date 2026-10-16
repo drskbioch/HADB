@@ -1,5 +1,5 @@
 // API access. Pages never fetch at build time: every call happens in the browser (client components), so the build passes with the API unreachable.
-export const API_BASE = (process.env.NEXT_PUBLIC_API_BASE ?? (process.env.NODE_ENV === 'production' ? 'https://api.habdsk.org' : 'http://localhost:8000')).replace(/\/$/, '');
+export const API_BASE = (process.env.NEXT_PUBLIC_API_BASE ?? 'http://localhost:8000').replace(/\/$/, '');
 export const RELEASE_LICENSE = process.env.NEXT_PUBLIC_RELEASE_LICENSE ?? 'CC BY 4.0';
 export const GBIF_CITATION = 'GBIF.org (13 October 2026) GBIF Occurrence Download https://doi.org/10.15468/dl.kb25da';
 export const ULTRAMAFIC_TEXT = 'not assessed (no coverage outside the Americas)';

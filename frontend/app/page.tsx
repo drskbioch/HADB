@@ -24,7 +24,7 @@ export default function Home() {
             <li key={e}><Link href={`/browse?element=${e}`} className="card flex w-28 items-center gap-2 hover:border-brand"><span aria-hidden="true" className="inline-block h-4 w-4 rounded-full" style={{ background: elementColor(e) }} /><span className="text-lg font-bold">{e}</span></Link></li>
           ))}
         </ul>
-        <p className="mt-4">Or read how the evidence is graded in <Link href="/evidence-tiers" className="text-brand underline">Evidence and tiers</Link>, see the paper figures on the <Link href="/statistics" className="text-brand underline">Statistics</Link> page, or <Link href="/downloads" className="text-brand underline">download the data</Link>.</p>
+        <p className="mt-4">Or read how the evidence is graded in <Link href="/evidence-tiers" className="text-brand underline">Evidence and tiers</Link> or <Link href="/downloads" className="text-brand underline">download the data</Link>.</p>
       </section>
     </div>
   );

@@ -7,11 +7,11 @@ import { elementColor, FAMILIES, SIDEBAR_ELEMENTS, TIERS } from '@/lib/elements'
 import { RELEASE_LICENSE } from '@/lib/api';
 
 const TOP = [
-  { href: '/', label: 'Home' }, { href: '/about', label: 'About' }, { href: '/browse', label: 'Database' }, { href: '/statistics', label: 'Statistics' },
+  { href: '/', label: 'Home' }, { href: '/about', label: 'About' }, { href: '/browse', label: 'Database' },
   { href: '/downloads', label: 'Downloads' }, { href: '/api-docs', label: 'API' }, { href: '/contact', label: 'Contact Us' },
 ];
 const PAGES = [
-  { href: '/', label: 'Home' }, { href: '/about', label: 'About' }, { href: '/browse', label: 'Browse the database' }, { href: '/statistics', label: 'Statistics (Figures 2 to 5)' },
+  { href: '/', label: 'Home' }, { href: '/about', label: 'About' }, { href: '/browse', label: 'Browse the database' },
   { href: '/evidence-tiers', label: 'Evidence and tiers' }, { href: '/downloads', label: 'Downloads' }, { href: '/api-docs', label: 'API documentation' }, { href: '/citation', label: 'Citation and versions' },
   { href: '/contact', label: 'Contact Us' },
 ];
