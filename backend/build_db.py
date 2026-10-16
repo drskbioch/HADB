@@ -71,7 +71,7 @@ def main():
     for name, df in (('species', SPC), ('species_element', SPE), ('evidence', EVD), ('environment_summary', EV), ('counts', CV)): df.to_sql(name, con, index=False)
     ver = [('release', 'HADB v1, release candidate 3 (rc3)'), ('rc3_manifest_sha256', sha(DR / 'release/MANIFEST.tsv')), ('gbif_doi', '10.15468/dl.kb25da'), ('gbif_citation', GBIF_CITATION), ('build_date', datetime.date.today().isoformat()),
            ('headline_view', 'Block B included; suspect-source, weakened and inferred-citation evidence dropped'), ('environment_basis', 'non-NC GBIF records, cleaned, one record per species per CHELSA cell, native only; species with >= 20 native cells'),
-           ('release_licence', 'TBC'), ('species', str(len(SPC))), ('species_element_rows', str(len(SPE))), ('evidence_rows', str(len(EVD))), ('species_with_environment', str(len(EV)))]
+           ('release_licence', 'CC BY 4.0'), ('species', str(len(SPC))), ('species_element_rows', str(len(SPE))), ('evidence_rows', str(len(EVD))), ('species_with_environment', str(len(EV)))]
     pd.DataFrame(ver, columns=['key', 'value']).to_sql('versions', con, index=False)
     cur = con.cursor()
     for sql in ('CREATE UNIQUE INDEX ix_sp_id ON species(species_id)', 'CREATE INDEX ix_sp_family ON species(family)', 'CREATE INDEX ix_sp_genus ON species(genus)', 'CREATE INDEX ix_sp_rank ON species(rank)', 'CREATE INDEX ix_spe ON species_element(species_id, element)',

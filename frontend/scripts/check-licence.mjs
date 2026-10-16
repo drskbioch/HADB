@@ -1,5 +1,5 @@
 // Pre-build guard: a production build fails while the release licence is TBC, unless ALLOW_TBC_LICENSE=1.
-const licence = (process.env.NEXT_PUBLIC_RELEASE_LICENSE || 'TBC').trim();
+const licence = (process.env.NEXT_PUBLIC_RELEASE_LICENSE || 'CC BY 4.0').trim();
 const allow = process.env.ALLOW_TBC_LICENSE === '1';
 if (licence === 'TBC' && !allow) {
   console.error('\nBUILD STOPPED: NEXT_PUBLIC_RELEASE_LICENSE is TBC (no licence chosen for the HADB release).');

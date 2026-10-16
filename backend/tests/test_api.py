@@ -84,7 +84,7 @@ def test_downloads_hash_and_whitelist():
 def test_elements_stats_versions():
     el = {e['element']: e for e in client.get('/api/v1/elements').json()['items']}; assert el['Ni']['t1_headline'] == 211
     st = client.get('/api/v1/stats').json(); assert st['species_with_environment'] == 198 and st['headline_counts']
-    v = client.get('/api/v1/versions').json(); assert v['gbif_doi'] == '10.15468/dl.kb25da' and v['release_licence'] == 'TBC' and len(v['rc3_manifest_sha256']) == 64
+    v = client.get('/api/v1/versions').json(); assert v['gbif_doi'] == '10.15468/dl.kb25da' and v['release_licence'] == 'CC BY 4.0' and len(v['rc3_manifest_sha256']) == 64
 
 
 def test_database_is_read_only_and_openapi_valid():
