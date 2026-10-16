@@ -1,0 +1,3 @@
+master_row_id,wcvp_accepted_name,element,name_as_published,source,source_rows,citation,reason,proposal,proposal_confidence,applied
+956,Clematis gouriana,Mi,Clematis gouriana,HADB Block B,46,PMID:21913125,"element label ""Mi"" is not a chemical symbol (typo in the source)",Mn,fairly confident,N
+1408,Elsholtzia communis,Mi,Elsholtzia communis,HADB Block B,51,PMID:21913125,"element label ""Mi"" is not a chemical symbol (typo in the source)",Mn or Ni (undecided),low,N

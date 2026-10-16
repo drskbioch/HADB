@@ -1,0 +1,10 @@
+tests/
+Dockerfile
+docker-compose.yml
+nginx.conf
+export_openapi.py
+build_db.py
+prepare_downloads.py
+requirements-dev.txt
+.env
+.env.*

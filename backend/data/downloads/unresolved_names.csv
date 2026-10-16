@@ -1,0 +1,136 @@
+excel_row,block_b_row,name_as_published,name_class,reason,candidate,candidate_similarity,region_ok,element_label,pmid,citation
+378,377,Berries,non_taxon,generic food category spanning unrelated genera; no taxon (my call),,,n/a (no candidate),"Ni, Cu, Pb, Cd, Cr, As",173–195,URL:https://link.springer.com/article/10.1023/A:1004972632578
+304,303,Brachythecium piligerum,non_taxon,moss; WCVP covers vascular plants only,Brachystephium scapigerum,79.2,N,Ni,24984833,PMID:24984833
+312,311,Brachythecium piligerum,non_taxon,moss; WCVP covers vascular plants only,Brachystephium scapigerum,79.2,N,Pb,24984833,PMID:24984833
+228,227,Citronella oil,non_taxon,"product (oil), not an organism",Citronella moorei,83.9,N,"Cd, Cr",30656974,PMID:30656974
+253,252,Ectocarpus siliculosus strains,non_taxon,brown alga (strains); WCVP covers vascular plants only,Achatocarpus spinulosus,80.0,N,Cu,24526604,PMID:24526604
+302,301,Hypnum plumaeforme,non_taxon,moss; WCVP covers vascular plants only,,,n/a (no candidate),Ni,24984833,PMID:24984833
+310,309,Hypnum plumaeforme,non_taxon,moss; WCVP covers vascular plants only,,,n/a (no candidate),Pb,24984833,PMID:24984833
+137,136,Sunflower oil,non_taxon,"product (oil), not an organism",,,n/a (no candidate),"Pb, Cd, Zn",29207531,PMID:29207531
+333,332,Sunflower oil,non_taxon,"product (oil), not an organism",,,n/a (no candidate),Cd,24984833,PMID:24984833
+343,342,Sunflower oil,non_taxon,"product (oil), not an organism",,,n/a (no candidate),Cu,24984833,PMID:24984833
+365,364,Sunflower oil,non_taxon,"product (oil), not an organism",,,n/a (no candidate),Zn,24984833,PMID:24984833
+436,435,Sunflower oil,non_taxon,"product (oil), not an organism",,,n/a (no candidate),"Cu,Mn",27726084,PMID:27726084
+743,742,Sunflower oil,non_taxon,"product (oil), not an organism",,,n/a (no candidate),"Cs, Sr, U",12674400,PMID:12674400
+303,302,Thuidium cymbifolium,non_taxon,moss; WCVP covers vascular plants only,Hieracium cymbifolium,82.9,N,Ni,24984833,PMID:24984833
+311,310,Thuidium cymbifolium,non_taxon,moss; WCVP covers vascular plants only,Hieracium cymbifolium,82.9,N,Pb,24984833,PMID:24984833
+718,717,Alyssum,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Ni,29561072,PMID:29561072
+374,373,Anisopappus,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Cu,29139134,PMID:29139134
+710,709,Anisopappus,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Co,29561072,PMID:29561072
+735,734,Arabidopsis,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Zn,29561072,PMID:29561072
+987,986,Artocarpus,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,"Cu, Zn, Pb, Cd, Cr",28265835,PMID:28265835
+731,730,Astragalus,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Se,29561072,PMID:29561072
+720,719,Berkheya,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Ni,29561072,PMID:29561072
+733,732,Biscutella,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Tl,29561072,PMID:29561072
+719,718,Buxus,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Ni,29561072,PMID:29561072
+823,822,Cinnamomum,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,"As, Ca, Co, Cr, Cu, Fe, K, Ni, Zn",1936-9771,URL:https://core.ac.uk/download/pdf/41685633.pdf
+375,374,Commelina,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Cu,29139134,PMID:29139134
+491,490,Commelina,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,"Cu,Mn,Zn,Ni,Pb,Cd",27726084,PMID:27726084
+376,375,Crepidorhopalon,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Cu,29139134,PMID:29139134
+711,710,Crepidorhopalon,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Co,29561072,PMID:29561072
+226,225,Cymbopogon,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,"Cd, Hg, Pb, Cu, Ni, Cr",30656974,PMID:30656974
+716,715,Denhamia,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Mn,29561072,PMID:29561072
+730,729,Dicranopteris,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,"Mn, Cu",29561072,PMID:29561072
+994,993,Ficus,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,"Cu, Zn, Pb, Cd, Cr",28265835,PMID:28265835
+722,721,Geissois,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Ni,29561072,PMID:29561072
+712,711,Glochidion,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Co,29561072,PMID:29561072
+721,720,Glochidion,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Ni,29561072,PMID:29561072
+715,714,Gossia,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Mn,29561072,PMID:29561072
+377,376,Haumaniastrum,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Cu,29139134,PMID:29139134
+380,379,Helianthus,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,"Pb, Zn, Cu, Cd",31951954,PMID:31951954
+723,722,Homalium,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Ni,29561072,PMID:29561072
+724,723,Hybanthus,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Ni,29561072,PMID:29561072
+549,548,Hydnora,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,"Mn,Cu,Cr,Zn,Ni",27726084,PMID:27726084
+550,549,Hydnora,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,"Cu,Mn,Zn",27726084,PMID:27726084
+734,733,Iberis,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Tl,29561072,PMID:29561072
+235,234,Lavandula,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,"Cd, Pb, Cu, Zn, Fe",30656974,PMID:30656974
+726,725,Leucocroton,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Ni,29561072,PMID:29561072
+188,187,Mentha,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,"Cu, Pb, Sn, Zn",30656974,PMID:30656974
+189,188,Mentha,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,"Cr,Pb",30656974,PMID:30656974
+231,230,Mentha,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,"Cr, Pb, Ni, Cd, Cu, Zn,",30656974,PMID:30656974
+895,894,Mentha,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,"Cd, Cr, Cu, Ni, Pb",26194234,PMID:26194234
+72,71,Momordica,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,"Br, Cu, Fe, Mn, Ni, Se, Zn",21913125,PMID:21913125
+500,499,Momordica,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,"Cr,Mn,Zn,Cu,Pb,Co,Sb",27726084,PMID:27726084
+372,371,Noccaea,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Cd,29139134,PMID:29139134
+729,728,Noccaea,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,"Mn, Cu",29561072,PMID:29561072
+736,735,Noccaea,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Zn,29561072,PMID:29561072
+229,228,Ocimum,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,"Cr, Cd, Ni, Pb, As, Zn",30656974,PMID:30656974
+179,178,Pelargonium,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,"Cu, Pb, Sn, Zn",30656974,PMID:30656974
+234,233,Pelargonium,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,"Cd, Ni, Pb, Zn",30656974,PMID:30656974
+547,546,Pelargonium,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,"Cr,Co,Cd",27726084,PMID:27726084
+714,713,Persicaria,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Co,29561072,PMID:29561072
+713,712,Phyllanthus,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Co,29561072,PMID:29561072
+725,724,Phyllanthus,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Ni,29561072,PMID:29561072
+371,370,Pityrogramma,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,As,29139134,PMID:29139134
+237,236,Populus,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Cd,24526604,PMID:24526604
+238,237,Populus,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Cd,24526604,PMID:24526604
+939,938,Populus,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Cd,19405030,PMID:19405030
+950,949,Populus,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Hg,28386947,PMID:28386947
+370,369,Pteris,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,As,29139134,PMID:29139134
+761,760,Salix,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,"Zn, Cd, Pb, Cu",31951901,PMID:31951901
+218,217,Salvia,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,"Pb, As, Sb, Zn, Cu",30656974,PMID:30656974
+219,218,Salvia,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Pb,30656974,PMID:30656974
+230,229,Salvia,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,"Cd, Pb, Cr",30656974,PMID:30656974
+373,372,Sedum,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Cd,29139134,PMID:29139134
+737,736,Sedum,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Zn,29561072,PMID:29561072
+765,764,Sedum,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,"Zn, Cd, Pb",31951901,PMID:31951901
+727,726,Senecio,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Ni,29561072,PMID:29561072
+732,731,Stanleya,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Se,29561072,PMID:29561072
+755,754,Triticum,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,"Cd, Pb, Cu, Zn, Fe, Mn",31951901,PMID:31951901
+307,306,Vallisneria,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Pb,24984833,PMID:24984833
+164,163,Vetiveria,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,"Zn, Cd, Pb",30656974,PMID:30656974
+8,7,Vitellaria,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,"Fe, Mn, Cu, Pb, Zn",,DOI:10.1016/j.foodchem.2003.06.004
+682,681,Vitellaria,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,"Zn,Cu,Mn,Pb",27726084,PMID:27726084
+728,727,Xylosma,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Ni,29561072,PMID:29561072
+328,327,Zea,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,As,24984833,PMID:24984833
+341,340,Zea,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Cr,24984833,PMID:24984833
+361,360,Zea,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,Pb,24984833,PMID:24984833
+641,640,Zea,rank_genus_by_design,matched at rank genus only; the record names a genus,,,,"Ni,Cu,Cd,Co,Zn",27726084,PMID:27726084
+828,827,A.racemosus,unresolved,abbreviated genus; the row and its article do not give the full genus (step 13); region-test candidate Asparagus racemosus not accepted,,100.0,Y,"As ,Pb, Cr, Ni",2233-8987,URL:http://koreascience.or.kr/article/JAKO201614734963453.page
+775,774,Alisma plantago aquatica,unresolved,"reverted on instruction: candidate similarity 82.4, below the bar; kept unresolved",Alisma plantagineum,82.4,Y,As,,URL:https://kiwiscience.com/JournalArticles/EEB2006.pdf
+411,410,Araucaria cookie,unresolved,candidate fails the region test,Araucaria cookii,93.8,N,"Zn,Cr,Ni,Mn,Co,Cu",27726084,PMID:27726084
+757,756,Bamboo,unresolved,no candidate,,,n/a (no candidate),"Cd, Cr, Cu, Ni, Pb, Zn, As",31951901,PMID:31951901
+892,891,Brinjal,unresolved,no candidate,,,n/a (no candidate),"Cd, Cr, Cu, Ni",26194234,PMID:26194234
+832,831,C. borivilianum,unresolved,abbreviated genus; the row and its article do not give the full genus (step 13); region-test candidate Chlorophytum borivilianum not accepted,,100.0,Y,"As ,Pb, Cd, Cr, Ni",2233-8991,URL:http://koreascience.or.kr/article/JAKO201614734963453.page
+165,164,C.zizanioides and C. nigritana,unresolved,reverted on instruction: cell names two species; kept unresolved,,100.0,Y,"Pb, Cd, Zn",30656974,PMID:30656974
+510,509,Croton macro stachyus,unresolved,candidate fails the region test,Croton macrourus,85.7,N,"Mn,Co,Cu,Zn,Ni,Cd,Pb",27726084,PMID:27726084
+914,913,Cuperus alternifolius,unresolved,candidate fails the region test,Cyperus alternifolius,95.2,N,"Pb, Zn, Cu, Cd, Al, Mn",14535650,PMID:14535650
+449,448,Daruharidra,unresolved,no candidate,,,n/a (no candidate),"Pb,Cu,Zn,Cd,Mn,Cr,Ni",27726084,PMID:27726084
+831,830,E. officinalis,unresolved,abbreviated genus; the row and its article do not give the full genus (step 13); region-test candidate Phyllanthus emblica not accepted,,100.0,Y,"Pb, Cr, Ni",2233-8990,URL:http://koreascience.or.kr/article/JAKO201614734963453.page
+1041,1040,Erigeron acer,unresolved,candidate fails the region test,Erigeron aucheri,89.7,N,"Mn, Cr, Cd, Zn, Pb, Cu",24271720,PMID:24271720
+829,828,G. glabra,unresolved,candidate fails the region test,,100.0,N,"As ,Pb, Cd, Hg, Cr, Ni",2233-8988,URL:http://koreascience.or.kr/article/JAKO201614734963453.page
+60,59,Gentiana kurroa,unresolved,candidate fails the region test,Gentiana kurroo,93.3,N,"Cd, Co, Cr, Cu, Fe, Mn, Ni, Pb, Zn",21913125,PMID:21913125
+61,60,Gentiana kurroa,unresolved,candidate fails the region test,Gentiana kurroo,93.3,N,"Cd, Cl, Co, Cr, Cu, Fe, Mn, Ni, Zn",21913125,PMID:21913125
+586,585,Gossipium hirsitum,unresolved,candidate fails the region test,Gossypium hirsutum,88.9,N,Cu,27726084,PMID:27726084
+474,473,Gymnocalycium platense,unresolved,in WCVP but no accepted name (Unplaced),,100.0,N,"Zn,Cr,Ni,Mn,Co,Cu",27726084,PMID:27726084
+1061,1060,Ipomea alpina,unresolved,candidate fails the region test,Ipomoea alpina,96.3,N,Cu,14755099,PMID:14755099
+67,66,Jatropha gossypyfolia,unresolved,candidate fails the region test,Jatropha gossypiifolia,93.0,N,"Cd, Cu, Fe, Mn, Zn",21913125,PMID:21913125
+785,784,Juncus spp,unresolved,no candidate,,,n/a (no candidate),As,,URL:https://kiwiscience.com/JournalArticles/EEB2006.pdf
+191,190,M. crispa,unresolved,candidate fails the region test,,100.0,N,Pb,30656974,PMID:30656974
+125,124,Mentha Citrata L,unresolved,candidate fails the region test,,100.0,N,"Cr, Pb",28759767,PMID:28759767
+813,812,Momardica chasintia,unresolved,candidate fails the region test,Momordica charantia,84.2,N,"As, Ca, Co, Cr, Cu, Fe, K",1936-9761,URL:https://core.ac.uk/download/pdf/41685633.pdf
+834,833,P. kurroa,unresolved,candidate fails the region test,,100.0,N,"As ,Pb, Cd, Cr, Ni",2233-8993,URL:http://koreascience.or.kr/article/JAKO201614734963453.page
+824,823,P. longum,unresolved,abbreviated genus; the row and its article do not give the full genus (step 13); region-test candidate Piper longum not accepted,,100.0,Y,"As, Ca, Co, Cr, Cu, Fe, K",1936-9772,URL:https://core.ac.uk/download/pdf/41685633.pdf
+835,834,P. longum,unresolved,abbreviated genus; the row and its article do not give the full genus (step 13); region-test candidate Piper longum not accepted,,100.0,Y,"Pb, Cr, Ni",2233-8994,URL:http://koreascience.or.kr/article/JAKO201614734963453.page
+1062,1061,Pandiaka metallorum,unresolved,in WCVP but no accepted name (Unplaced),,100.0,N,Cu,14755099,PMID:14755099
+186,185,Pelargonium cultivars,unresolved,no candidate,,,n/a (no candidate),"Cd, Pb",30656974,PMID:30656974
+631,630,Plantago sanctum,unresolved,candidate fails the region test,Plantago annua,80.0,N,"Cu,Zn",27726084,PMID:27726084
+748,747,Psychotria douarrei,unresolved,candidate fails the region test,Psychotria neodouarrei,92.7,N,Ni,12674400,PMID:12674400
+764,763,Ramie,unresolved,no candidate,,,n/a (no candidate),"Cd, Cr, Zn, Cu, Pb",31951901,PMID:31951901
+591,590,Rosa sinensis,unresolved,candidate fails the region test,Rosa sikangensis,89.7,N,"Zn,Cr,Ni,Mn,Co,Cu",27726084,PMID:27726084
+693,692,S. torvum,unresolved,abbreviated genus; the row and its article do not give the full genus (step 13); region-test candidate Solanum torvum not accepted,,100.0,Y,"Zn, Cu, Mn, Na, Pb",27726084,PMID:27726084
+758,757,Sequoioideae,unresolved,no candidate,,,n/a (no candidate),"Cd, Cr, Cu, Ni, Pb, Zn, As",31951901,PMID:31951901
+830,829,T. arjuna,unresolved,abbreviated genus; the row and its article do not give the full genus (step 13); region-test candidate Terminalia arjuna not accepted,,100.0,Y,"As ,Pb, Cr, Ni",2233-8989,URL:http://koreascience.or.kr/article/JAKO201614734963453.page
+774,773,Terminalia bellarica,unresolved,candidate fails the region test,Terminalia bellirica,95.0,N,As,,URL:https://kiwiscience.com/JournalArticles/EEB2006.pdf
+820,819,Terminalia bellarica,unresolved,candidate fails the region test,Terminalia bellirica,95.0,N,"As, Ca, Co, Cr, Mn, Na, Ni, Zn",1936-9768,URL:https://core.ac.uk/download/pdf/41685633.pdf
+95,94,Ureria picta,unresolved,candidate fails the region test,Curmeria picta,92.3,N,"Cd, Co, Cr, Cu, Fe, Hg, Mn, Ni, Pb, Zn",21913125,PMID:21913125
+509,508,V. vitis-idaea,unresolved,abbreviated genus; the row and its article do not give the full genus (step 13); region-test candidate Vaccinium vitis-idaea not accepted,,100.0,Y,"Cu,Mn,Cr,Zn,Ni,As,Cd,Co,Pb",27726084,PMID:27726084
+443,442,Vernonia bulimoides,unresolved,candidate fails the region test,Vernonia brunioides,89.5,N,"Mn,Pb,Zn",27726084,PMID:27726084
+225,224,Vetiver,unresolved,no candidate,,,n/a (no candidate),"Cd, Pb, Cu, As, Hg, Cr, Ni, Sn, Zn",30656974,PMID:30656974
+152,151,Vetiver species,unresolved,no candidate,,,n/a (no candidate),As,30656974,PMID:30656974
+150,149,Viola boashanensis,unresolved,candidate fails the region test,Viola baoshanensis,94.4,N,"Pb, Zn, Cd",29207531,PMID:29207531
+752,751,Water hyacinth,unresolved,no candidate,,,n/a (no candidate),Pb,31951901,PMID:31951901
+827,826,Z. officinalis,unresolved,no candidate,,,n/a (no candidate),"As ,Pb, Cd, Cr, Ni",2233-8986,URL:http://koreascience.or.kr/article/JAKO201614734963453.page
+400,399,carrot,unresolved,no candidate,,,n/a (no candidate),"Cd,Co,Cr,Cu,Mo,Mn,Ni,Pb,Zn",27726084,PMID:27726084
+858,857,carrot,unresolved,no candidate,,,n/a (no candidate),"Cd, Cu, Pb",26194234,PMID:26194234
+771,770,penny grass,unresolved,no candidate,,,n/a (no candidate),"Cu, Cd",31951901,PMID:31951901

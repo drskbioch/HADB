@@ -1,0 +1,184 @@
+#### fig5a.py
+"""Fig 5a: mean annual temperature (bio1) of species by element (raincloud: density of species medians, box, points = species medians)."""
+import numpy as np
+from scipy.stats import gaussian_kde
+from figures import style as S, figdata as FD, layout as L
+FIG, LET = 5, 'a'
+META = dict(chart='raincloud', data=['derived/species_environment_summary.csv'], filter='species with >= 20 native cells (198); one value per species (its median over native cells); a species counts under every element')
+
+
+def render():
+    w, h = L.panel_size(FIG, LET); bg = S.DEFAULT_BG[FIG]; fig = S.new_fig(w, h, bg); ax = S.axes_in(fig, left=0.5, bottom=0.55, right=0.15, top=0.45); Sm = FD.env_ok(); E = FD.species_by_element(Sm).merge(Sm[['accepted_name', 'bio1_median_C']], left_on='sp', right_on='accepted_name'); xs = np.linspace(0, 32, 200); rng = np.random.default_rng(1)
+    for i, e in enumerate(FD.CORE[::-1]):
+        v = E[E.element == e].bio1_median_C.values; d = gaussian_kde(v)(xs); d = d / d.max() * 0.42
+        ax.fill_between(xs, i + 0.12, i + 0.12 + d, color=S.elem_color(e), alpha=0.8, lw=0); ax.scatter(v, i - 0.16 + rng.uniform(-0.1, 0.1, len(v)), s=3, color=S.elem_color(e), alpha=0.7, lw=0)
+        q = np.percentile(v, [25, 50, 75]); ax.plot([q[0], q[2]], [i + 0.02, i + 0.02], color=S.fg(bg), lw=1.6, solid_capstyle='butt'); ax.scatter(q[1], i + 0.02, s=8, color='white', edgecolor=S.fg(bg), lw=0.5, zorder=3)
+        ax.text(31.5, i + 0.15, 'n=%d' % len(v), ha='right', fontsize=S.TICK - 2.5, color=S.muted(bg))
+    ax.set_yticks(range(4)); ax.set_yticklabels(FD.CORE[::-1]); ax.set_xlim(0, 32); ax.set_xlabel('Mean annual temperature, species median (degrees C)'); S.title(fig, 'Temperature (bio1)'); return fig, len(Sm)
+#### fig5b.py
+"""Fig 5b: annual precipitation (bio12) of native cells by element (ridgeline), with the saturation cap."""
+import numpy as np
+from scipy.stats import gaussian_kde
+from figures import style as S, figdata as FD, layout as L
+FIG, LET = 5, 'b'
+META = dict(chart='ridgeline', data=['work/records_environment_primary.csv.gz', 'derived/species_environment_summary.csv'], filter='native cells of species with >= 20 native cells; kernel density of cell values; dashed line = 6,553.5 mm uint16 ceiling of CHELSA bio12')
+
+
+def render():
+    w, h = L.panel_size(FIG, LET); bg = S.DEFAULT_BG[FIG]; fig = S.new_fig(w, h, bg); ax = S.axes_in(fig, left=0.5, bottom=0.55, right=0.15, top=0.45)
+    E = FD.species_by_element(FD.env_ok()); C = FD.cells_ok()[['species_level_name', 'bio12_mm']].merge(E, left_on='species_level_name', right_on='sp'); xs = np.linspace(0, 7000, 300); n = 0
+    for i, e in enumerate(FD.CORE[::-1]):
+        v = C[C.element == e].bio12_mm.dropna().values; n += len(v); d = gaussian_kde(v, bw_method=0.1)(xs); d = d / d.max() * 0.95
+        ax.fill_between(xs, i, i + d, color=S.elem_color(e), alpha=0.85, lw=0); ax.plot(xs, i + d, color=S.fg(bg), lw=0.4); ax.text(6900, i + 0.12, '%s (n=%s)' % (e, format(len(v), ',')), ha='right', fontsize=S.TICK - 2, color=S.fg(bg), va='bottom')
+    ax.axvline(6553.5, color=S.TIER['T2'], ls='--', lw=S.LW_LINE); ax.text(6500, 3.75, 'cap 6,553.5 mm\n(saturated)', ha='right', va='top', fontsize=S.TICK - 2.5, color=S.TIER['T2'])
+    ax.set_yticks([]); ax.spines['left'].set_visible(False); ax.set_xlim(0, 7000); ax.set_ylim(0, 4.1); ax.set_xlabel('Annual precipitation (mm)'); S.title(fig, 'Precipitation (bio12)'); return fig, n
+#### fig5c.py
+"""Fig 5c: species medians of bio1 vs bio12 with marginal histograms."""
+import numpy as np
+from figures import style as S, figdata as FD, layout as L
+FIG, LET = 5, 'c'
+META = dict(chart='scatter + marginals', data=['derived/species_environment_summary.csv'], filter='species with >= 20 native cells; colour = first element present in the order Ni, Co, Mn, Zn')
+
+
+def render():
+    w, h = L.panel_size(FIG, LET); bg = S.DEFAULT_BG[FIG]; fig = S.new_fig(w, h, bg); Sm = FD.env_ok(); col = [S.elem_color(FD.primary_element(FD.elements_of(s))) for s in Sm.elements_in_hadb]
+    ax = fig.add_axes([0.5 / w, 0.55 / h, (w - 1.0) / w, (h - 1.5) / h]); S.style_ax(ax, bg); ax.scatter(Sm.bio1_median_C, Sm.bio12_median_mm, s=7, c=col, alpha=0.85, lw=0)
+    ax.set_xlabel('bio1 species median (degrees C)'); ax.set_ylabel('bio12 species median (mm)')
+    top = fig.add_axes([0.5 / w, (h - 0.95) / h, (w - 1.0) / w, 0.5 / h]); S.style_ax(top, bg); top.hist(Sm.bio1_median_C, bins=24, color=S.GREY, lw=0); top.set_xlim(ax.get_xlim()); top.set_xticks([]); top.set_yticks([]); top.spines['left'].set_visible(False)
+    rt = fig.add_axes([(w - 0.5) / w, 0.55 / h, 0.4 / w, (h - 1.5) / h]); S.style_ax(rt, bg); rt.hist(Sm.bio12_median_mm, bins=24, orientation='horizontal', color=S.GREY, lw=0); rt.set_ylim(ax.get_ylim()); rt.set_xticks([]); rt.set_yticks([]); rt.spines['bottom'].set_visible(False)
+    for j, e in enumerate(FD.CORE): fig.text((0.55 + 0.45 * j) / w, 0.12 / h, e, color=S.elem_color(e), fontsize=S.TICK - 1, fontweight='bold')
+    S.title(fig, 'Climate space of the species'); return fig, len(Sm)
+#### fig5d.py
+"""Fig 5d: soil pH of native cells by element (violin) with species medians (swarm)."""
+import numpy as np
+from figures import style as S, figdata as FD, layout as L
+FIG, LET = 5, 'd'
+META = dict(chart='violin + swarm', data=['work/records_environment_primary.csv.gz', 'derived/species_environment_summary.csv'], filter='native cells of species with >= 20 native cells with a SoilGrids value (violin); points = species medians; pH = stored integer / 10')
+
+
+def render():
+    w, h = L.panel_size(FIG, LET); bg = S.DEFAULT_BG[FIG]; fig = S.new_fig(w, h, bg); ax = S.axes_in(fig, left=0.5, bottom=0.55, right=0.15, top=0.45); Sm = FD.env_ok(); E = FD.species_by_element(Sm); rng = np.random.default_rng(2)
+    C = FD.cells_ok()[['species_level_name', 'ph_h2o_0_5cm']].dropna().merge(E, left_on='species_level_name', right_on='sp'); M = E.merge(Sm[['accepted_name', 'ph_median']], left_on='sp', right_on='accepted_name').dropna(subset=['ph_median']); n = 0
+    data = [C[C.element == e].ph_h2o_0_5cm.values for e in FD.CORE]; n = sum(len(d) for d in data)
+    vp = ax.violinplot(data, positions=range(4), widths=0.85, showextrema=False, bw_method=0.15)
+    for b, e in zip(vp['bodies'], FD.CORE): b.set_facecolor(S.elem_color(e)); b.set_alpha(0.55); b.set_edgecolor('none')
+    for i, e in enumerate(FD.CORE):
+        v = M[M.element == e].ph_median.values; ax.scatter(i + rng.uniform(-0.22, 0.22, len(v)), v, s=3.5, color=S.elem_color(e), edgecolor=S.fg(bg), lw=0.15, zorder=3)
+    ax.set_xticks(range(4)); ax.set_xticklabels(FD.CORE); ax.set_ylabel('Soil pH (water, 0-5 cm)'); S.title(fig, 'Soil pH'); return fig, n
+#### fig5e.py
+"""Fig 5e: completeness of the environment data by layer and element (stacked bars)."""
+import numpy as np, pandas as pd
+from figures import style as S, figdata as FD, layout as L
+FIG, LET = 5, 'e'
+META = dict(chart='stacked bars', data=['work/records_environment_primary.csv.gz', 'derived/species_environment_summary.csv'], filter='all native cells of the species of each element; insufficient records = cells of species with < 20 native cells (no statistics); saturated = bio12 raw value 65535; missing = SoilGrids nodata')
+COL = {'valid': S.MAIN, 'saturated': '#D9A441', 'missing': '#8C8C8C', 'insufficient records': S.TIER['T2']}
+
+
+def render():
+    w, h = L.panel_size(FIG, LET); bg = S.DEFAULT_BG[FIG]; fig = S.new_fig(w, h, bg); ax = S.axes_in(fig, left=0.85, bottom=1.0, right=0.15, top=0.45); Sm = FD.env(); ok = set(Sm[Sm.meets_20_cells == 'Y'].accepted_name)
+    E = FD.species_by_element(Sm); C = FD.cells_all()[['species_level_name', 'bio12_raw', 'ph_h2o_0_5cm', 'bio1_c']].merge(E, left_on='species_level_name', right_on='sp'); C['ok'] = C.species_level_name.isin(ok); rows = []; labels = []
+    for e in FD.CORE:
+        g = C[C.element == e]; N = len(g); ins = int((~g.ok).sum()); gg = g[g.ok]
+        for layer in ('bio1', 'bio12', 'pH'):
+            sat = int((gg.bio12_raw == 65535).sum()) if layer == 'bio12' else 0; mis = int(gg.ph_h2o_0_5cm.isna().sum()) if layer == 'pH' else int(gg.bio1_c.isna().sum()) if layer == 'bio1' else 0
+            rows.append([100 * (len(gg) - sat - mis) / N, 100 * sat / N, 100 * mis / N, 100 * ins / N]); labels.append('%s %s' % (e, layer))
+    P = np.array(rows); y = np.array([i + (i // 3) * 0.5 for i in range(len(rows))])[::-1]; left = np.zeros(len(rows))
+    for j, k in enumerate(COL): ax.barh(y, P[:, j], left=left, color=COL[k], height=0.8, lw=0, label=k); left += P[:, j]
+    ax.set_yticks(y); ax.set_yticklabels(labels, fontsize=S.TICK - 2.5); ax.set_xlim(0, 100); ax.set_xlabel('Share of native cells (%)'); ax.legend(loc='upper center', bbox_to_anchor=(0.35, -0.2), ncol=2, handlelength=1, columnspacing=0.8, fontsize=S.TICK - 2.5)
+    S.title(fig, 'Completeness of the environment data'); return fig, int(len(FD.cells_all()))
+#### fig5f.py
+"""Fig 5f: climate envelopes of families (bubble)."""
+import numpy as np, pandas as pd
+from figures import style as S, figdata as FD, layout as L
+FIG, LET = 5, 'f'
+META = dict(chart='bubble', data=['derived/species_environment_summary.csv'], filter='species with >= 20 native cells; family median of species medians; bubble = species; families with >= 3 species drawn, >= 8 labelled')
+
+
+def render():
+    w, h = L.panel_size(FIG, LET); bg = S.DEFAULT_BG[FIG]; fig = S.new_fig(w, h, bg); ax = S.axes_in(fig, left=0.6, bottom=0.55, right=0.15, top=0.45); Sm = FD.env_ok()
+    g = Sm.groupby('family').agg(n=('accepted_name', 'size'), t=('bio1_median_C', 'median'), p=('bio12_median_mm', 'median')).query('n >= 3')
+    ax.scatter(g.t, g.p, s=g.n * 5, color=S.MAIN, alpha=0.6, edgecolor=S.fg(bg), lw=0.3)
+    for fam, r in g[g.n >= 8].iterrows(): ax.text(r.t, r.p + 130, fam, ha='center', fontsize=S.TICK - 3, color=S.fg(bg))
+    ax.set_xlabel('bio1 family median (degrees C)'); ax.set_ylabel('bio12 family median (mm)'); ax.grid(color=S.grid_color(bg), lw=S.LW_GRID); ax.set_axisbelow(True)
+    fig.text(0.6 / w, 0.12 / h, 'bubble area = species (n = %d to %d)' % (g.n.min(), g.n.max()), fontsize=S.TICK - 2.5, color=S.muted(bg)); S.title(fig, 'Family climate envelopes'); return fig, int(g.n.sum())
+#### fig5g.py
+"""Fig 5g: PCA of species medians (bio1, bio12, pH), biplot."""
+import numpy as np
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+from figures import style as S, figdata as FD, layout as L
+FIG, LET = 5, 'g'
+META = dict(chart='PCA biplot', data=['derived/species_environment_summary.csv'], filter='species with >= 20 native cells and a pH median; standardised species medians of bio1, bio12 and pH; colour = first element present in the order Ni, Co, Mn, Zn')
+
+
+def render():
+    w, h = L.panel_size(FIG, LET); bg = S.DEFAULT_BG[FIG]; fig = S.new_fig(w, h, bg); ax = S.axes_in(fig, left=0.6, bottom=0.6, right=0.15, top=0.45); Sm = FD.env_ok().dropna(subset=['bio1_median_C', 'bio12_median_mm', 'ph_median'])
+    X = StandardScaler().fit_transform(Sm[['bio1_median_C', 'bio12_median_mm', 'ph_median']]); pca = PCA(2).fit(X); Z = pca.transform(X); col = [S.elem_color(FD.primary_element(FD.elements_of(s))) for s in Sm.elements_in_hadb]
+    ax.scatter(Z[:, 0], Z[:, 1], s=7, c=col, alpha=0.8, lw=0); sc = 2.2
+    for (a, b), lab in zip(pca.components_.T, ('bio1', 'bio12', 'pH')):
+        ax.annotate('', xy=(a * sc, b * sc), xytext=(0, 0), arrowprops=dict(arrowstyle='->', color=S.fg(bg), lw=1.0)); ax.text(a * sc * 1.15, b * sc * 1.15, lab, ha='center', va='center', fontsize=S.TICK - 1, color=S.fg(bg), fontweight='bold')
+    ev = pca.explained_variance_ratio_ * 100; ax.set_xlabel('PC1 (%.0f%%)' % ev[0]); ax.set_ylabel('PC2 (%.0f%%)' % ev[1]); ax.axhline(0, color=S.GREY, lw=0.3); ax.axvline(0, color=S.GREY, lw=0.3)
+    for j, e in enumerate(FD.CORE): fig.text((0.65 + 0.45 * j) / w, 0.14 / h, e, color=S.elem_color(e), fontsize=S.TICK - 1, fontweight='bold')
+    S.title(fig, 'PCA of the species medians'); return fig, len(Sm)
+#### fig5h.py
+"""Fig 5h: species medians of T1 vs T2 species (dumbbells)."""
+import numpy as np, pandas as pd
+from figures import style as S, figdata as FD, layout as L
+FIG, LET = 5, 'h'
+META = dict(chart='dumbbell', data=['release/evidence.csv', 'release/species_element.csv', 'derived/species_environment_summary.csv'], filter='species with >= 20 native cells; T1 = best tier T1 in the headline view, T2 = best tier T2; median of species medians with quartile range')
+
+
+def render():
+    w, h = L.panel_size(FIG, LET); bg = S.DEFAULT_BG[FIG]; fig = S.new_fig(w, h, bg); Sm = FD.env_ok(); t = FD.species_tier(); Sm = Sm.assign(tier=Sm.accepted_name.map(t)).dropna(subset=['tier']); vars_ = [('bio1_median_C', 'bio1 (degrees C)'), ('bio12_median_mm', 'bio12 (mm)'), ('ph_median', 'pH')]
+    n1, n2 = int((Sm.tier == 'T1').sum()), int((Sm.tier == 'T2').sum())
+    for k, (c, lab) in enumerate(vars_):
+        ax = fig.add_axes([0.5 / w, (h - 0.55 - (k + 1) * 0.78) / h, (w - 0.75) / w, 0.5 / h]); S.style_ax(ax, bg)
+        for tt, yy in (('T1', 0.3), ('T2', -0.3)):
+            v = Sm[Sm.tier == tt][c].dropna(); q = np.percentile(v, [25, 50, 75]); ax.plot([q[0], q[2]], [yy, yy], color=S.TIER[tt], lw=3, solid_capstyle='butt', alpha=0.5); ax.scatter(q[1], yy, s=22, color=S.TIER[tt], zorder=3); ax.text(q[2], yy, '  %s %.1f' % (tt, q[1]) if c != 'bio12_median_mm' else '  %s %.0f' % (tt, q[1]), va='center', fontsize=S.TICK - 2.5, color=S.fg(bg))
+        ax.set_ylim(-0.7, 0.7); ax.set_yticks([]); ax.spines['left'].set_visible(False); ax.set_xlabel(lab, fontsize=S.TICK - 1, labelpad=1)
+    fig.text(0.5 / w, 0.12 / h, 'T1 n=%d, T2 n=%d species; bar = quartile range' % (n1, n2), fontsize=S.TICK - 2.5, color=S.muted(bg)); S.title(fig, 'T1 vs T2 species'); return fig, n1 + n2
+#### fig5i.py
+"""Fig 5i: climate space of the four data-rich T1 species (small multiples)."""
+import numpy as np
+from figures import style as S, figdata as FD, layout as L
+FIG, LET = 5, 'i'
+META = dict(chart='small multiples (2D histogram)', data=['release/evidence.csv', 'release/species_element.csv', 'derived/species_environment_summary.csv', 'work/records_environment_primary.csv.gz'],
+            filter='rule: the 4 species with most native cells among species with tier T1 evidence from a hyperaccumulation-scope source (headline view) and >= 20 native cells; 2D histogram of bio1 vs bio12 of the native cells (no points)')
+
+
+def pick():
+    E = FD.evidence(); t1 = set(E[(E.tier == 'T1') & (E.scope == 'hyperaccumulation')].sp); Sm = FD.env_ok(); Sm = Sm[Sm.accepted_name.isin(t1)].sort_values('n_cells', ascending=False).head(4); return list(Sm.accepted_name), list(Sm.n_cells)
+
+
+def render():
+    w, h = L.panel_size(FIG, LET); bg = S.DEFAULT_BG[FIG]; fig = S.new_fig(w, h, bg); sp, ncl = pick(); C = FD.cells_ok(); from matplotlib.colors import LinearSegmentedColormap; cm = LinearSegmentedColormap.from_list('hadb', S.SEQ)
+    for k, (s, nn) in enumerate(zip(sp, ncl)):
+        ax = fig.add_axes([0.55 / w, (h - 0.7 - (k + 1) * 1.05) / h, (w - 0.75) / w, 0.8 / h]); S.style_ax(ax, bg); d = C[C.species_level_name == s]
+        ax.hist2d(d.bio1_c, d.bio12_mm.clip(upper=6553.5), bins=(28, 28), cmap=cm, cmin=1); ax.text(0.97, 0.9, '%s\nn=%s cells' % (s, format(nn, ',')), transform=ax.transAxes, ha='right', va='top', fontsize=S.TICK - 2.5, color=S.fg(bg), style='italic')
+        ax.tick_params(labelsize=S.TICK - 2.5)
+        if k == len(sp) - 1: ax.set_xlabel('bio1 (degrees C)', fontsize=S.TICK - 1.5)
+        if k == 1: ax.set_ylabel('bio12 (mm)', fontsize=S.TICK - 1.5)
+    S.title(fig, 'Data-rich T1 species'); return fig, int(sum(ncl))
+#### fig5j.py
+"""Fig 5j: median environment by family and element (three heatmaps)."""
+import numpy as np, pandas as pd
+from figures import style as S, figdata as FD, layout as L
+from matplotlib.colors import LinearSegmentedColormap
+FIG, LET = 5, 'j'
+META = dict(chart='heatmap', data=['derived/species_environment_summary.csv'], filter='species with >= 20 native cells; median of species medians per family (12 families with most species) and element; grey = no species')
+
+
+def render():
+    w, h = L.panel_size(FIG, LET); bg = S.DEFAULT_BG[FIG]; fig = S.new_fig(w, h, bg); Sm = FD.env_ok(); E = FD.species_by_element(Sm).merge(Sm[['accepted_name', 'family', 'bio1_median_C', 'bio12_median_mm', 'ph_median']], left_on='sp', right_on='accepted_name')
+    fams = Sm.family.value_counts().head(12).index; cm = LinearSegmentedColormap.from_list('hadb', S.SEQ); cm.set_bad(S.MISSING); pw = (w - 1.6) / 3
+    for k, (c, lab, fmt) in enumerate((('bio1_median_C', 'bio1 (degrees C)', '%.0f'), ('bio12_median_mm', 'bio12 (mm)', '%.0f'), ('ph_median', 'pH', '%.1f'))):
+        ax = fig.add_axes([(1.3 + k * (pw + 0.12)) / w, 0.6 / h, pw / w, (h - 1.1) / h]); M = E.groupby(['family', 'element'])[c].median().unstack().reindex(index=fams, columns=FD.CORE)
+        ax.imshow(np.ma.masked_invalid(M.values), cmap=cm, aspect='auto')
+        for i in range(M.shape[0]):
+            for j in range(M.shape[1]):
+                v = M.values[i, j]
+                if not np.isnan(v): ax.text(j, i, fmt % v, ha='center', va='center', fontsize=S.TICK - 3.5, color='white' if (v - np.nanmin(M.values)) / (np.nanmax(M.values) - np.nanmin(M.values) + 1e-9) > 0.6 else '#1A1A1A')
+        ax.set_xticks(range(4)); ax.set_xticklabels(FD.CORE, fontsize=S.TICK - 2); ax.set_title(lab, fontsize=S.TICK - 1, color=S.fg(bg), pad=2); ax.tick_params(length=0)
+        ax.set_yticks(range(len(fams)) if k == 0 else []); ax.set_yticklabels(list(fams) if k == 0 else [], fontsize=S.TICK - 2.5)
+        for s in ax.spines.values(): s.set_visible(False)
+    S.title(fig, 'Median environment by family and element'); return fig, len(Sm)

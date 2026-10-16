@@ -1,0 +1,23 @@
+# HADB API behind Nginx (HTTPS). Create .env first (copy .env.example) and put fullchain.pem and privkey.pem in ./certs (not in the repository or the bundle).
+services:
+  api:
+    build: .
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      HADB_DB_PATH: /srv/data/hadb.sqlite
+      HADB_DOWNLOADS_DIR: /srv/data/downloads
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    expose: ["8000"]
+  nginx:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    depends_on: [api]
+    ports: ["80:80", "443:443"]
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certs:/etc/nginx/certs:ro
+      - ./certbot-webroot:/var/www/certbot:ro

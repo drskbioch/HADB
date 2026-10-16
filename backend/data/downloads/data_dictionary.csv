@@ -1,0 +1,73 @@
+file,column,type,description,allowed_values
+species_element.csv,wcvp_accepted_name,text,"WCVP accepted name (may be infraspecific or hybrid); with element, the unique key of the file",
+species_element.csv,species_level_name,text,"WCVP species-level name; infraspecific names fold into their species. ""species"" in counts means this",
+species_element.csv,rank,text,"Rank of the WCVP accepted record: species (species rank, including nothospecies), infraspecific (variety, subspecies, form, ...) or genus (none occur here: genus-level records are in unresolved_names.csv)",species; infraspecific; genus
+species_element.csv,element,text,Chemical symbol of the element the plant is reported to accumulate,IUPAC symbols
+species_element.csv,wcvp_id,integer,WCVP plant name id of wcvp_accepted_name,
+species_element.csv,family,text,Family from WCVP,
+species_element.csv,name_as_published,text,"Every spelling used in the sources for this species and element, semicolon separated",
+species_element.csv,best_tier,text,Best (lowest-numbered) tier among the evidence records,T1; T2; T3
+species_element.csv,class,text,"Class of the strongest evidence record (ordered by tier, then threshold_class, then class)","hyperaccumulator (high-range); hyperaccumulator (standard or low-range); hyperaccumulator; listed, no concentration; label"
+species_element.csv,threshold_class,text,"Threshold class of the same record: high-range, standard, or label-only (no concentration or no threshold for the element)",high-range; standard; label-only
+species_element.csv,scope,text,"Purpose of the source, strongest across the evidence records (hyperaccumulation > phytoremediation > biosorbent > other > mixed > unknown). A tag only",hyperaccumulation; phytoremediation; biosorbent; other; mixed; unknown
+species_element.csv,n_evidence,integer,Number of evidence.csv rows for this species and element,
+species_element.csv,evidence_types,text,"Evidence types present, semicolon separated",block_b_label; gei_xrf_taxon; gei_literature_update; paper_table
+species_element.csv,citations,text,"Distinct citations of the evidence rows, separated by "" | """,
+species_element.csv,weakened,Y/N,"Y only if every evidence record is flagged weakened (source row in red type, ""not confirmed in this study"")",Y; N
+species_element.csv,n_suspect,integer,Evidence rows tagged suspect_source = Y,
+species_element.csv,suspect_only,Y/N,Y if every evidence row of this species and element is tagged suspect_source = Y,Y; N
+species_element.csv,n_inferred,integer,Evidence rows with citation_inferred = Y,
+evidence.csv,evidence_id,text,"Unique key, E000001 and up",
+evidence.csv,species,text,WCVP accepted name (= wcvp_accepted_name in species_element.csv),
+evidence.csv,element,text,Chemical symbol,
+evidence.csv,evidence_type,text,block_b_label = literature-mined label from HADB Block B (no concentration); gei_xrf_taxon = Gei 2020 tables S2.1 to S2.5; gei_literature_update = Gei 2020 compiled lists S2.6 and S2.7; paper_table = Sabah or Queensland paper,
+evidence.csv,tier,text,Evidence tier of this record,T1; T2; T3
+evidence.csv,citation,text,"PMID (with DOI where known), a link (URL:/DOI:) for Block B rows without a valid PMID, or paper plus table/page. No concentration values",
+evidence.csv,doi,text,DOI of the cited article where known and checked; blank for link-only rows,
+evidence.csv,source_license,text,"Licence of the source as far as it was found; ""unknown"" where not found",
+evidence.csv,nc_derived,text,Y if derived from a non-commercial-only source; N if not; unknown,Y; N; unknown
+evidence.csv,n_specimens,integer,Number of specimens measured (Gei and paper rows); blank otherwise,
+evidence.csv,paper_class,text,The paper's own class for paper_table rows; blank otherwise,hyperaccumulator
+evidence.csv,name_as_published,text,Name as written in the source row,
+evidence.csv,scope,text,"Scope of this record (Gei and paper rows: hyperaccumulation; Block B rows: hand label of the PMID if given, else by article title, else unknown)",hyperaccumulation; phytoremediation; biosorbent; other; mixed; unknown
+evidence.csv,weakened,Y/N,"Y = source row in red type (""not confirmed in this study"")",Y; N
+evidence.csv,class,text,Class of this record,
+evidence.csv,threshold_class,text,Threshold class of this record,high-range; standard; label-only
+evidence.csv,master_row_id,integer,Position (1-based) of the master_row in 14_derived/master_species_v2.csv,
+evidence.csv,source_rows,text,Where in the source: Block B = block_b_row ids (semicolon list; excel_row = block_b_row + 1); Gei = table and row; paper = page and location,
+evidence.csv,suspect_source,Y/N,Y = the cited source could not be read or is doubtful (see suspect_sources_step11.csv); no tier change is made,Y; N
+evidence.csv,citation_inferred,Y/N,"Y = the citation was inferred (DOI replaced after a Crossref title check against the row context), not read from the source row",Y; N
+evidence.csv,citation_note,text,"Caveat on the citation: link-only rows, corrected DOIs, suspect sources",
+unresolved_names.csv,excel_row,integer,"Row in sheet ""HADB fInal"" of HADB final.xlsx",
+unresolved_names.csv,block_b_row,integer,"Row number within Block B, 1 to 1,065 (excel_row - 1)",
+unresolved_names.csv,name_class,text,"rank_genus_by_design = genus only, kept at genus rank; non_taxon = oil, moss, alga or food category; unresolved = no accepted species name",rank_genus_by_design; non_taxon; unresolved
+unresolved_names.csv,reason,text,Why the row is in this file,
+unresolved_names.csv,candidate,text,"Closest WCVP spelling candidate, if any (not applied)",
+unresolved_names.csv,candidate_similarity,number,"Spelling similarity of the candidate, 0 to 100",
+unresolved_names.csv,region_ok,text,Whether the candidate occurs in the region given in the row (Y/N),
+unresolved_names.csv,element_label,text,Element label(s) of the row as written,
+unresolved_names.csv,pmid,text,PMID cell of the row as written (may be malformed),
+unresolved_names.csv,citation,text,PMID or the row's link,
+counts.csv,block_b_view,text,with_block_b = all evidence; without_block_b = Gei and paper evidence only,with_block_b; without_block_b
+counts.csv,suspect_view,text,without_suspect drops evidence rows tagged suspect_source = Y,with_suspect; without_suspect
+counts.csv,inferred_view,text,without_inferred drops evidence rows with citation_inferred = Y,with_inferred; without_inferred
+counts.csv,view_label,text,"headline = with Block B, without suspect-source, weakened and inferred-citation evidence; all_inclusive = nothing dropped; blank for the other views",headline; all_inclusive; (blank)
+counts.csv,weakened_view,text,without_weakened drops evidence rows flagged weakened,with_weakened; without_weakened
+counts.csv,element,text,"Chemical symbol, or ALL_ELEMENTS (unique species over all elements; a species can sit in several tiers through different elements)",
+counts.csv,best_tier,text,"Best tier of the species for that element in that view, or all",T1; T2; T3; all
+counts.csv,scope,text,"Strongest scope of the species for that element in that view, or all",
+counts.csv,unique_species,integer,Distinct species_level_name; rows with scope or tier = all are totals,
+counts_species.csv,block_b_view / suspect_view / weakened_view / element / best_tier,text,as in counts.csv,
+counts_species.csv,rank,text,"species, infraspecific, genus or all (rank of the WCVP accepted record)",species; infraspecific; genus; all
+counts_species.csv,unique_species,integer,Distinct species_level_name among the taxa of that rank,
+counts_species.csv,unique_taxa,integer,Distinct wcvp_accepted_name (a species and its varieties count separately),
+block_b_row_accounting.csv,bucket,text,"The single bucket of each block_b_row: master (at least one evidence row), unresolved, genus_by_design, non_taxon, excluded (resolved name but no usable record)",master; unresolved; genus_by_design; non_taxon; excluded
+block_b_row_accounting.csv,master_row_ids / excluded_master_row_ids / n_evidence_rows,text,"master_rows built from this block_b_row, those left out for a non-symbol element label, and the number of evidence rows citing it",
+new_name_decisions_table.csv,input_string / accepted_wcvp_name / rule / similarity / region_ok / flag,text,"The names accepted by decision: the string as written, its WCVP accepted name, the rule (abbreviation, spelling, synonym), similarity (0 to 1; for an abbreviation it is the expansion, not a spelling score), the region test, and the flags (abbreviated genus, similarity below 0.95, expansion not unique)",
+new_name_decisions_table.csv,match_class / evidence_for_decision,text,spelling_manual = spelling correction kept by decision (excluded from the GBIF subset); abbreviation_full_genus_in_row / abbreviation_full_genus_in_article = abbreviated genus accepted because the same row or the same article gives the full genus; evidence_for_decision quotes where,spelling_manual; abbreviation_full_genus_in_row; abbreviation_full_genus_in_article
+gbif_clean20_by_element_tier.csv,species / species_ge20_clean / species_without_gbif_count,integer,"Species with T1 or T2 evidence of scope hyperaccumulation, how many have at least 20 clean GBIF records (coordinates, no geospatial issue), how many have no GBIF count",
+excluded_rows.csv,master_row_id,integer,Position in master_species_v2.csv,
+excluded_rows.csv,reason / proposal / proposal_confidence / applied,text,"Why the master_row is left out of the release, a proposed correction taken from the source text (never applied), how sure the proposal is",
+block_b_record_drops.csv,step,text,"E1 label with spaces split, E2 repeated label dropped, E3 label dropped, E4 concatenated labels split, E5 case corrected, S0 name with a candidate not applied in master v1",
+block_b_record_drops.csv,effect_on_record_count,integer,"+1, -1 or 0 relative to the number of comma-separated element labels in the row",
+block_b_record_drops.csv,comma_labels_in_row,integer,S0 rows only: the comma-separated element labels of a row whose name was not in master v1 (applied by decision in this build),

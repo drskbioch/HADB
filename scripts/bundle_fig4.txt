@@ -1,0 +1,148 @@
+#### fig4a.py
+"""Fig 4a: density of cleaned native cells (hexbin on a Natural Earth base map; no point dots)."""
+import numpy as np
+from matplotlib.colors import LinearSegmentedColormap
+from figures import style as S, figdata as FD, layout as L
+FIG, LET = 4, 'a'
+META = dict(chart='hexbin map', data=['work/records_environment_primary.csv.gz'], filter='primary basis (non-NC, cleaned, one record per species per cell), native only; hexagon counts only, log colour scale; base map Natural Earth 110 m (pyogrio fixture)')
+
+
+def render():
+    w, h = L.panel_size(FIG, LET); bg = S.DEFAULT_BG[FIG]; fig = S.new_fig(w, h, bg); ax = S.axes_in(fig, left=0.35, bottom=0.45, right=0.55, top=0.42)
+    C = FD.cells_all(); FD.land().plot(ax=ax, color='#E4E4E4' if bg != 'navy' else '#1F3A63', edgecolor='none', zorder=0)
+    cm = LinearSegmentedColormap.from_list('hadb', S.SEQ[1:]); hb = ax.hexbin(C.lon, C.lat, gridsize=(110, 45), extent=(-180, 180, -58, 80), bins='log', mincnt=1, cmap=cm, linewidths=0, zorder=2)
+    ax.set_xlim(-180, 180); ax.set_ylim(-58, 80); ax.set_aspect('equal'); ax.set_xticks([-120, -60, 0, 60, 120]); ax.set_yticks([-40, 0, 40, 80]); ax.tick_params(labelsize=S.TICK - 1.5)
+    cb = fig.colorbar(hb, ax=ax, fraction=0.025, pad=0.01, shrink=0.8); cb.ax.tick_params(labelsize=S.TICK - 2, length=1.5, colors=S.fg(bg)); cb.set_label('Native cells per hexagon (log)', fontsize=S.TICK - 1.5, color=S.fg(bg)); cb.outline.set_linewidth(0.3)
+    S.title(fig, 'Where the cleaned native cells are'); return fig, int(len(C))
+#### fig4b.py
+"""Fig 4b: records and native cells per species (ECDF, log axis) with the 20-record line."""
+import numpy as np
+from figures import style as S, figdata as FD, layout as L
+FIG, LET = 4, 'b'
+META = dict(chart='ECDF', data=['derived/species_environment_summary.csv'], filter='279 species; cleaned records (before one-per-cell) and native cells; vertical line at 20')
+
+
+def render():
+    w, h = L.panel_size(FIG, LET); bg = S.DEFAULT_BG[FIG]; fig = S.new_fig(w, h, bg); ax = S.axes_in(fig, left=0.6, bottom=0.55, right=0.15, top=0.45); Sm = FD.env()
+    for col, lab, c in (('n_records', 'cleaned records', S.GREY), ('n_cells', 'native cells', S.MAIN)):
+        x = np.sort(Sm[col].values); ax.step(x, np.arange(1, len(x) + 1) / len(x), where='post', color=c, lw=S.LW_LINE + 0.3, label=lab)
+    ax.axvline(20, color=S.TIER['T2'], ls='--', lw=S.LW_LINE); ax.set_xscale('log'); ax.set_xlabel('Per species (n, log axis)'); ax.set_ylabel('Share of species'); ax.set_ylim(0, 1.02)
+    k = int((Sm.n_cells >= 20).sum()); ax.text(22, 0.08, '%d of %d species\n>= 20 native cells' % (k, len(Sm)), fontsize=S.TICK - 2, color=S.fg(bg)); ax.legend(loc='upper left'); ax.grid(color=S.grid_color(bg), lw=S.LW_GRID); ax.set_axisbelow(True)
+    S.title(fig, 'Records per species'); return fig, len(Sm)
+#### fig4c.py
+"""Fig 4c: records left after each cleaning step (waterfall from the logged step counts)."""
+import numpy as np, pandas as pd
+from figures import style as S, figdata as FD, layout as L
+FIG, LET = 4, 'c'
+META = dict(chart='waterfall', data=['work/survival_table.csv', 'work/records_environment_primary.csv.gz'], filter='primary basis (non-NC records); steps from survival_table.csv; uncertainty-missing share from the final native cells')
+
+
+def render():
+    w, h = L.panel_size(FIG, LET); bg = S.DEFAULT_BG[FIG]; fig = S.new_fig(w, h, bg); ax = S.axes_in(fig, left=1.15, bottom=0.55, right=0.2, top=0.45)
+    V = pd.read_csv(FD.WRK / 'survival_table.csv'); V = V[V.variant == 'primary'].reset_index(drop=True); rec = V.records.tolist(); st = V.step.tolist()
+    def at(prefix): return rec[[i for i, s in enumerate(st) if s.startswith(prefix)][0]]
+    start, zero, eq, unc, hq, cen, inst, cell, nat = at('0 '), at('1b'), at('1c'), at('2 '), at('3a'), at('3b'), at('3c'), at('4 '), at('5 ')
+    steps = [('start (non-NC)', start, 'total'), ('zero / equal coordinates', zero - start + eq - zero, 'delta'), ('uncertainty > 10 km', unc - eq, 'delta'), ('GBIF HQ, centroid', cen - unc, 'delta'), ('institution text proxy', inst - cen, 'delta'),
+             ('one per species per cell', cell - inst, 'delta'), ('native only', nat - cell, 'delta'), ('final native cells', nat, 'total')]
+    y = np.arange(len(steps))[::-1]; level = 0
+    for yi, (lab, v, kind) in zip(y, steps):
+        if kind == 'total': ax.barh(yi, v, color=S.MAIN, height=0.62, lw=0); level = v; ax.text(v + 1500, yi, format(v, ','), va='center', fontsize=S.TICK - 2, color=S.fg(bg))
+        else: ax.barh(yi, -v, left=level + v, color=S.TIER['T2'], height=0.62, lw=0); ax.text(level + 1500, yi, format(v, ','), va='center', fontsize=S.TICK - 2, color=S.fg(bg)); level += v
+    ax.set_yticks(y); ax.set_yticklabels([s[0] for s in steps], fontsize=S.TICK - 2); ax.set_xlabel('Records (n)'); ax.set_xlim(0, start * 1.2); share = 100 * FD.cells_all().unc_null.mean()
+    fig.text(0.1 / w, 0.14 / h, 'no coordinate uncertainty recorded in %.1f%% of final cells (kept, flagged)' % share, fontsize=S.TICK - 2.5, color=S.muted(bg)); S.title(fig, 'Cleaning of the occurrence records'); return fig, int(start)
+#### fig4d.py
+"""Fig 4d: species by native WGSRPD region, top 20 (bars)."""
+import re
+import numpy as np, pandas as pd
+from figures import style as S, figdata as FD, layout as L
+FIG, LET = 4, 'd'
+META = dict(chart='bars', data=['derived/species_environment_summary.csv', 'work/wgsrpd_level3.geojson'], filter='279 species; a species counts once per WGSRPD level-3 region with at least one native cell; top 20 regions')
+
+
+def render():
+    w, h = L.panel_size(FIG, LET); bg = S.DEFAULT_BG[FIG]; fig = S.new_fig(w, h, bg); ax = S.axes_in(fig, left=1.0, bottom=0.5, right=0.15, top=0.45); Sm = FD.env(); nm = FD.region_names(); cnt = {}
+    for s in Sm.regions.dropna():
+        for code in set(re.findall(r'([A-Z]{3}) \(', s)): cnt[code] = cnt.get(code, 0) + 1
+    c = pd.Series(cnt).sort_values(ascending=False).head(20).iloc[::-1]; y = np.arange(len(c)); ax.barh(y, c.values, color=S.MAIN, height=0.7, lw=0)
+    ax.set_yticks(y); ax.set_yticklabels([nm.get(k, k) for k in c.index], fontsize=S.TICK - 2.5); ax.set_xlabel('Species (n)')
+    for yi, v in zip(y, c.values): ax.text(v + 1.5, yi, str(v), va='center', fontsize=S.TICK - 2.5, color=S.fg(bg))
+    S.title(fig, 'Native regions'); return fig, len(Sm)
+#### fig4e.py
+"""Fig 4e: T1 species by the region studied in the source (lollipop)."""
+import numpy as np, pandas as pd
+from figures import style as S, figdata as FD, layout as L
+FIG, LET = 4, 'e'
+META = dict(chart='lollipop', data=['release/evidence.csv', 'release/species_element.csv'], filter='headline view, tier T1 evidence rows; region = region studied by the source (Gei 2020 XRF: New Caledonia; Sabah paper: Sabah, Borneo; Purwadi 2023: Queensland); a species counts once per source')
+
+
+def render():
+    w, h = L.panel_size(FIG, LET); bg = S.DEFAULT_BG[FIG]; fig = S.new_fig(w, h, bg); ax = S.axes_in(fig, left=1.15, bottom=0.55, right=0.3, top=0.5)
+    E = FD.evidence(); E = E[E.tier == 'T1']; reg = np.where(E.evidence_type == 'gei_xrf_taxon', 'New Caledonia (Gei 2020 XRF)', np.where(E.citation.str.contains('Purwadi'), 'Queensland (Purwadi 2023)', np.where(E.citation.str.contains('2019b'), 'Sabah (van der Ent 2019)', 'other')))
+    E = E.assign(reg=reg); c = E.groupby('reg').sp.nunique().sort_values(); y = np.arange(len(c))
+    ax.hlines(y, 0, c.values, color=S.MAIN, lw=S.LW_LINE); ax.scatter(c.values, y, s=24, color=S.MAIN, zorder=3)
+    for yi, v in zip(y, c.values): ax.text(v + 6, yi, str(v), va='center', fontsize=S.TICK - 1.5, color=S.fg(bg))
+    ax.set_yticks(y); ax.set_yticklabels(c.index, fontsize=S.TICK - 2.5); ax.set_xlabel('T1 species (n)'); ax.set_xlim(0, c.max() * 1.18)
+    fig.text(0.1 / w, 0.14 / h, 'a species counts once per source; sources overlap', fontsize=S.TICK - 2.5, color=S.muted(bg)); S.title(fig, 'T1 species by source region'); return fig, int(E.sp.nunique())
+#### fig4f.py
+"""Fig 4f: basis of record of the native cells by element (100% stacked)."""
+import numpy as np, pandas as pd
+from figures import style as S, figdata as FD, layout as L
+FIG, LET = 4, 'f'
+META = dict(chart='100% stacked bars', data=['work/records_environment_primary.csv.gz', 'derived/species_environment_summary.csv'], filter='native cells of the primary basis; a cell counts under every element of its species')
+COL = {'HUMAN_OBSERVATION': S.ACCENT, 'PRESERVED_SPECIMEN': S.MAIN, 'MATERIAL_SAMPLE': '#D9A441', 'OBSERVATION': '#8C8C8C'}
+
+
+def render():
+    w, h = L.panel_size(FIG, LET); bg = S.DEFAULT_BG[FIG]; fig = S.new_fig(w, h, bg); ax = S.axes_in(fig, left=0.5, bottom=0.95, right=0.15, top=0.45)
+    E = FD.species_by_element(FD.env()); C = FD.cells_all()[['species_level_name', 'basisOfRecord']].merge(E, left_on='species_level_name', right_on='sp'); P = pd.crosstab(C.element, C.basisOfRecord).reindex(index=FD.CORE, columns=list(COL), fill_value=0)
+    Q = P.div(P.sum(axis=1), axis=0) * 100; left = np.zeros(4); y = np.arange(4)[::-1]
+    for k in COL: ax.barh(y, Q[k], left=left, color=COL[k], height=0.62, lw=0, label=k.replace('_', ' ').lower()); left += Q[k].values
+    ax.set_yticks(y); ax.set_yticklabels(['%s (%s)' % (e, format(int(P.loc[e].sum()), ',')) for e in FD.CORE], fontsize=S.TICK - 2); ax.set_xlim(0, 100); ax.set_xlabel('Share of native cells (%)')
+    ax.legend(loc='upper center', bbox_to_anchor=(0.4, -0.3), ncol=2, handlelength=1, columnspacing=0.8, fontsize=S.TICK - 2.5); S.title(fig, 'Basis of record'); return fig, int(P.values.sum())
+#### fig4g.py
+"""Fig 4g: licence of all downloaded records by element (stacked columns)."""
+import numpy as np, pandas as pd
+from figures import style as S, figdata as FD, layout as L
+FIG, LET = 4, 'g'
+META = dict(chart='stacked columns', data=['work/records_flags_all.csv.gz', 'derived/species_environment_summary.csv'], filter='all 101,048 downloaded records (before cleaning); a record counts under every element of its species')
+COL = {'CC0_1_0': S.ACCENT, 'CC_BY_4_0': S.MAIN, 'CC_BY_NC_4_0': S.TIER['T2']}
+
+
+def render():
+    w, h = L.panel_size(FIG, LET); bg = S.DEFAULT_BG[FIG]; fig = S.new_fig(w, h, bg); ax = S.axes_in(fig, left=0.65, bottom=0.95, right=0.15, top=0.45)
+    E = FD.species_by_element(FD.env()); F = FD.flags(); C = F.merge(E, left_on='species_level_name', right_on='sp'); P = pd.crosstab(C.element, C.licence).reindex(index=FD.CORE, columns=list(COL), fill_value=0); bottom = np.zeros(4); x = np.arange(4)
+    for k in COL: ax.bar(x, P[k], bottom=bottom, color=COL[k], width=0.66, lw=0, label=k.replace('_', ' ').replace(' 1 0', ' 1.0').replace(' 4 0', ' 4.0').replace('NC 4.0', 'NC 4.0')); bottom += P[k].values
+    ax.set_xticks(x); ax.set_xticklabels(FD.CORE); ax.set_ylabel('Records (n)'); ax.legend(loc='upper center', bbox_to_anchor=(0.45, -0.18), ncol=3, handlelength=1, columnspacing=0.6, fontsize=S.TICK - 2.5)
+    ax.yaxis.set_major_formatter(__import__('matplotlib').ticker.FuncFormatter(lambda v, p: format(int(v), ','))); S.title(fig, 'Licence of the records'); return fig, int(len(F))
+#### fig4h.py
+"""Fig 4h: collection year of the native cells by element (ridgeline)."""
+import numpy as np, pandas as pd
+from scipy.stats import gaussian_kde
+from figures import style as S, figdata as FD, layout as L
+FIG, LET = 4, 'h'
+META = dict(chart='ridgeline', data=['work/records_environment_primary.csv.gz', 'derived/species_environment_summary.csv'], filter='native cells of the primary basis with a year (1850 to 2026); Gaussian kernel density, area-normalised')
+
+
+def render():
+    w, h = L.panel_size(FIG, LET); bg = S.DEFAULT_BG[FIG]; fig = S.new_fig(w, h, bg); ax = S.axes_in(fig, left=0.55, bottom=0.55, right=0.15, top=0.45)
+    E = FD.species_by_element(FD.env()); C = FD.cells_all()[['species_level_name', 'year']].merge(E, left_on='species_level_name', right_on='sp'); C['year'] = pd.to_numeric(C.year, errors='coerce'); C = C[C.year.between(1850, 2026)]; xs = np.linspace(1850, 2026, 300); n = 0
+    for i, e in enumerate(FD.CORE[::-1]):
+        v = C[C.element == e].year.values; n += len(v); d = gaussian_kde(v, bw_method=0.12)(xs); d = d / d.max() * 0.95; ax.fill_between(xs, i, i + d, color=S.elem_color(e), alpha=0.85, lw=0); ax.plot(xs, i + d, color=S.fg(bg), lw=0.4)
+        ax.text(1852, i + 0.12, '%s (n=%s)' % (e, format(len(v), ',')), fontsize=S.TICK - 2, color=S.fg(bg), va='bottom')
+    ax.set_yticks([]); ax.spines['left'].set_visible(False); ax.set_xlabel('Collection year'); ax.set_xlim(1850, 2026); S.title(fig, 'Collection year'); return fig, n
+#### fig4i.py
+"""Fig 4i: latitude of the native cells by element (violin; density summary only)."""
+import numpy as np, pandas as pd
+from figures import style as S, figdata as FD, layout as L
+FIG, LET = 4, 'i'
+META = dict(chart='violin', data=['work/records_environment_primary.csv.gz', 'derived/species_environment_summary.csv'], filter='native cells of the primary basis; kernel density of latitude per element (no points drawn); white dot = median')
+
+
+def render():
+    w, h = L.panel_size(FIG, LET); bg = S.DEFAULT_BG[FIG]; fig = S.new_fig(w, h, bg); ax = S.axes_in(fig, left=0.6, bottom=0.55, right=0.15, top=0.45)
+    E = FD.species_by_element(FD.env()); C = FD.cells_all()[['species_level_name', 'lat']].merge(E, left_on='species_level_name', right_on='sp'); data = [C[C.element == e].lat.values for e in FD.CORE]
+    vp = ax.violinplot(data, positions=range(4), vert=False, widths=0.8, showextrema=False, bw_method=0.08)
+    for b, e in zip(vp['bodies'], FD.CORE): b.set_facecolor(S.elem_color(e)); b.set_alpha(0.9); b.set_edgecolor(S.fg(bg)); b.set_linewidth(0.4)
+    for i, d in enumerate(data): ax.scatter(np.median(d), i, s=12, color='white', edgecolor=S.fg(bg), lw=0.5, zorder=3)
+    ax.set_yticks(range(4)); ax.set_yticklabels(['%s (n=%s)' % (e, format(len(d), ',')) for e, d in zip(FD.CORE, data)], fontsize=S.TICK - 1); ax.invert_yaxis(); ax.set_xlabel('Latitude (degrees)'); ax.axvline(0, color=S.GREY, lw=0.4, ls=':')
+    S.title(fig, 'Latitude of the native cells'); return fig, int(sum(len(d) for d in data))

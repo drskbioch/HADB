@@ -1,0 +1,86 @@
+[
+ {
+  "name": "species_element.csv",
+  "bytes": 788261,
+  "sha256": "678E7AF391AF6B101EA0728ED642E53B782530E516D073A4BC70A60B2C9B7052",
+  "description": "one row per species (WCVP taxon) and element: best tier, class, scope, citations",
+  "version": "HADB v1 (rc3)"
+ },
+ {
+  "name": "evidence.csv",
+  "bytes": 1246365,
+  "sha256": "F819168748A34D1DC09C8A4D0D08C16DF76BDF643A45C9F2CCF94D9E466CE925",
+  "description": "one row per evidence record with citation, DOI, tier, scope, flags (no concentration values)",
+  "version": "HADB v1 (rc3)"
+ },
+ {
+  "name": "counts.csv",
+  "bytes": 174840,
+  "sha256": "6A9D8991257C7DB900BB2FAB55A65D476BCD2C96FD4FA17DA23CA1BF19A6294C",
+  "description": "unique species per element by best tier and scope, 16 views (headline view marked)",
+  "version": "HADB v1 (rc3)"
+ },
+ {
+  "name": "counts_species.csv",
+  "bytes": 150756,
+  "sha256": "18848878DB6273F1A93D8F6186B46A973C1F69026F2DD906B631497D4767959D",
+  "description": "the same by rank",
+  "version": "HADB v1 (rc3)"
+ },
+ {
+  "name": "unresolved_names.csv",
+  "bytes": 18590,
+  "sha256": "F55E482CEF2B3C80425BF95C26266B22719F19B992DF669EBAF804FDE83233B6",
+  "description": "Block B rows kept out of the table, with reasons",
+  "version": "HADB v1 (rc3)"
+ },
+ {
+  "name": "excluded_rows.csv",
+  "bytes": 469,
+  "sha256": "A456E2BB6C2E7B2581C6A943B0511B9713E4735328B83C1EE7DE3CAA9F57355D",
+  "description": "rows left out for a non-symbol element label",
+  "version": "HADB v1 (rc3)"
+ },
+ {
+  "name": "data_dictionary.csv",
+  "bytes": 10067,
+  "sha256": "408E76FB9EA656CCF04F98DEA4D0529D18B9FF7E54C95F6EB1EEB9D96DFB83E4",
+  "description": "column dictionary",
+  "version": "HADB v1 (rc3)"
+ },
+ {
+  "name": "README.md",
+  "bytes": 9436,
+  "sha256": "5B0F63FE8166BF34B0CC061D6E5FF17B97B4C838841FD2A0752B058C70B7BB5E",
+  "description": "release README",
+  "version": "HADB v1 (rc3)"
+ },
+ {
+  "name": "KNOWN_ISSUES.md",
+  "bytes": 5713,
+  "sha256": "D5171AB60643217647BB63BCC4B50FF561AC3DF2C6B56C9E5D24EE305F4E0D56",
+  "description": "known issues of the release",
+  "version": "HADB v1 (rc3)"
+ },
+ {
+  "name": "CHANGELOG.md",
+  "bytes": 4035,
+  "sha256": "C65CAC1A57A556A4409D6024FA1435D0CA7784382936A263FEB9D7F2CCF96607",
+  "description": "changes since earlier release candidates",
+  "version": "HADB v1 (rc3)"
+ },
+ {
+  "name": "MANIFEST.tsv",
+  "bytes": 7741,
+  "sha256": "BB0BCD479374F2265E02A954C6E832CCB1AC6FB4BFA53441D315F31D4B8C8D2E",
+  "description": "SHA256 of every release file and input",
+  "version": "HADB v1 (rc3)"
+ },
+ {
+  "name": "species_environment_summary.csv",
+  "bytes": 217968,
+  "sha256": "DBB4ECE9998416A5F7654DF61CAF08DA7826B15E4411281D2CFEE4520C63D023",
+  "description": "climate and soil summary per species (>= 20 native cells; others: insufficient records); aggregated, no coordinates",
+  "version": "HADB v1 (rc3)"
+ }
+]

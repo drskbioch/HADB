@@ -1,0 +1,32 @@
+[
+ {
+  "file": "images-habd-1.webp",
+  "bytes": 281792,
+  "source_sha256": "6213CD886A61A2C242B44128FA8FD6F4DA7C47ABA782086C1222C2855CA09795",
+  "alt": "Draft: HADB banner variant (check and edit)"
+ },
+ {
+  "file": "images-hadb-header.webp",
+  "bytes": 29390,
+  "source_sha256": "C54C180222E8C0C8F1EEEFA2E01276E706A215A8FB40C72F60AE5C9939A807E5",
+  "alt": "Draft: HADB banner image (check and edit)"
+ },
+ {
+  "file": "images-hadb.webp",
+  "bytes": 206296,
+  "source_sha256": "2CC1390F602B348A1809DC8421D188BA87522328E5E33923633A7684D1A8013E",
+  "alt": "Draft: HADB banner: Hyperaccumulator Database title graphic (check and edit)"
+ },
+ {
+  "file": "misc-picture1.webp",
+  "bytes": 34674,
+  "source_sha256": "F280097B94F9822685751566F3F2F22345F28DF98886D07FC7F13A7436E9389E",
+  "alt": "Draft: HADB illustration (check and edit)"
+ },
+ {
+  "file": "website-hadb.webp",
+  "bytes": 212494,
+  "source_sha256": "F0776DB875BD6FB16ACE238B16D5CEBBD8294C5D7AF251B278F2458FEAE97991",
+  "alt": "Draft: HADB banner: Hyperaccumulator Database title graphic (check and edit)"
+ }
+]

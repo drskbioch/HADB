@@ -1,0 +1,183 @@
+#### fig2a.py
+"""Fig 2a: species per element by best tier (lollipop). Headline view counts.csv."""
+from figures import style as S, figdata as FD, layout as L
+FIG, LET = 2, 'a'
+META = dict(chart='lollipop', data=['release/counts.csv'], filter='headline view, scope all, best tier T1 / T2, elements Ni Mn Zn Co Cd Se')
+
+
+def render():
+    w, h = L.panel_size(FIG, LET); bg = S.DEFAULT_BG[FIG]; fig = S.new_fig(w, h, bg); ax = S.axes_in(fig, left=0.5, bottom=0.62, right=0.2, top=0.5)
+    C = FD.counts_headline(); els = FD.SIX[::-1]
+    for i, e in enumerate(els):
+        for t, dy, fill in (('T1', 0.17, True), ('T2', -0.17, False)):
+            v = FD.n_of(C, e, t); col = S.elem_color(e)
+            ax.hlines(i + dy, 0, v, color=col, lw=S.LW_LINE); ax.scatter(v, i + dy, s=26, facecolor=col if fill else S.BACKGROUNDS[bg], edgecolor=col, linewidth=1.0, zorder=3)
+            ax.text(v + 9, i + dy, str(v), va='center', fontsize=S.TICK - 1.5, color=S.fg(bg))
+    ax.set_yticks(range(len(els))); ax.set_yticklabels([e + (' *' if e in ('Cd', 'Se') else '') for e in els]); ax.set_xlim(0, 450); ax.set_ylim(-0.6, len(els) - 0.4)
+    ax.set_xlabel('Species (n)'); ax.grid(axis='x', color=S.grid_color(bg), lw=S.LW_GRID); ax.set_axisbelow(True)
+    fig.text(0.5 / w, 0.14 / h, 'filled = best tier T1, open = best tier T2;  * label-only (Block B)', fontsize=S.TICK - 1.5, color=S.muted(bg))
+    S.title(fig, 'Species per element and tier'); n = FD.n_of(C, 'ALL_ELEMENTS', 'T1') + FD.n_of(C, 'ALL_ELEMENTS', 'T2')
+    return fig, n
+#### fig2b.py
+"""Fig 2b: evidence rows by evidence type (waffle)."""
+import numpy as np
+from matplotlib.patches import Rectangle
+from figures import style as S, figdata as FD, layout as L
+FIG, LET = 2, 'b'
+META = dict(chart='waffle', data=['release/evidence.csv', 'release/species_element.csv'], filter='headline view evidence rows by evidence_type; one square = 1% of rows')
+LAB = {'block_b_label': 'Block B labels', 'gei_xrf_taxon': 'Gei XRF tables', 'gei_literature_update': 'Gei compiled lists', 'paper_table': 'Sabah / Queensland tables'}
+
+
+def render():
+    w, h = L.panel_size(FIG, LET); bg = S.DEFAULT_BG[FIG]; fig = S.new_fig(w, h, bg); ax = fig.add_axes([0.45 / w, 1.15 / h, (w - 0.9) / w, (h - 1.15 - 0.5) / h]); ax.axis('off')
+    E = FD.evidence(); vc = E.evidence_type.value_counts(); tot = vc.sum(); raw = vc / tot * 100; k = np.floor(raw).astype(int); rem = 100 - k.sum()
+    for t in (raw - k).sort_values(ascending=False).index[:rem]: k[t] += 1
+    seq = [t for t in vc.index for _ in range(k[t])]; side = min((w - 0.9) / 10, (h - 1.65) / 10)
+    for i, t in enumerate(seq):
+        r, c = divmod(i, 10); ax.add_patch(Rectangle((c * 1.0, 9 - r), 0.88, 0.88, color=S.SRC[t], lw=0))
+    ax.set_xlim(0, 10); ax.set_ylim(0, 10); ax.set_aspect('equal')
+    for j, t in enumerate(vc.index):
+        fig.text(0.62 / w, (0.88 - 0.2 * j) / h, '%s  %s rows (%.0f%%)' % (LAB[t], format(int(vc[t]), ','), 100 * vc[t] / tot), fontsize=S.TICK - 1.5, color=S.fg(bg), va='center')
+        fig.add_artist(Rectangle((0.42 / w, (0.88 - 0.2 * j - 0.05) / h), 0.12 / w, 0.1 / h, transform=fig.transFigure, color=S.SRC[t], lw=0))
+    S.title(fig, 'Evidence rows by source'); return fig, int(tot)
+#### fig2c.py
+"""Fig 2c: Ni species by combination of evidence sources (UpSet-style)."""
+import numpy as np
+from figures import style as S, figdata as FD, layout as L
+FIG, LET = 2, 'c'
+META = dict(chart='upset-style', data=['release/evidence.csv', 'release/species_element.csv'], filter='headline view, element Ni, species by set of evidence types')
+LAB = {'block_b_label': 'Block B', 'gei_xrf_taxon': 'Gei XRF', 'gei_literature_update': 'Gei lists', 'paper_table': 'Papers'}
+ORD = ['block_b_label', 'gei_literature_update', 'gei_xrf_taxon', 'paper_table']
+
+
+def render():
+    w, h = L.panel_size(FIG, LET); bg = S.DEFAULT_BG[FIG]; fig = S.new_fig(w, h, bg)
+    E = FD.evidence(); E = E[E.element == 'Ni']; sets = E.groupby('sp').evidence_type.apply(lambda s: tuple(t for t in ORD if t in set(s)))
+    cnt = sets.value_counts().head(7); n = int(sets.shape[0]); ax = S.axes_in(fig, left=0.55, bottom=1.25, right=0.12, top=0.5)
+    x = np.arange(len(cnt)); ax.bar(x, cnt.values, color=S.elem_color('Ni'), width=0.62, lw=0)
+    for xi, v in zip(x, cnt.values): ax.text(xi, v + 3, str(v), ha='center', fontsize=S.TICK - 2, color=S.fg(bg))
+    ax.set_xticks([]); ax.set_ylabel('Ni species (n)'); ax.set_xlim(-0.6, len(cnt) - 0.4)
+    ax2 = fig.add_axes([0.55 / w, 0.3 / h, (w - 0.67) / w, 0.9 / h]); ax2.axis('off'); ax2.set_xlim(-0.6, len(cnt) - 0.4); ax2.set_ylim(-0.5, len(ORD) - 0.5)
+    for j, t in enumerate(ORD):
+        yy = len(ORD) - 1 - j; ax2.text(-0.7, yy, LAB[t], ha='right', va='center', fontsize=S.TICK - 1.5, color=S.fg(bg))
+        for xi in x: ax2.scatter(xi, yy, s=10, color=S.grid_color(bg), zorder=1)
+    for xi, comb in zip(x, cnt.index):
+        ys = [len(ORD) - 1 - ORD.index(t) for t in comb]; ax2.scatter([xi] * len(ys), ys, s=16, color=S.fg(bg), zorder=3)
+        if len(ys) > 1: ax2.plot([xi, xi], [min(ys), max(ys)], color=S.fg(bg), lw=1.0, zorder=2)
+    ax.set_xlim(-0.6, len(cnt) - 0.4); S.title(fig, 'Ni: overlap of evidence sources'); return fig, n
+#### fig2d.py
+"""Fig 2d: best threshold class per species and element (radial stacked bars, square-root radius)."""
+import numpy as np
+from figures import style as S, figdata as FD, layout as L
+FIG, LET = 2, 'd'
+META = dict(chart='radial stacked bars', data=['release/evidence.csv', 'release/species_element.csv'], filter='headline view, Ni Mn Zn Co, best threshold class per species x element; radius = sqrt(cumulative species)')
+RANK = {'high-range': 0, 'standard': 1, 'label-only': 2}
+
+
+def render():
+    w, h = L.panel_size(FIG, LET); bg = S.DEFAULT_BG[FIG]; fig = S.new_fig(w, h, bg)
+    ax = fig.add_axes([0.2 / w, 0.7 / h, (w - 0.4) / w, (h - 1.3) / h], projection='polar'); ax.set_facecolor('none')
+    E = FD.evidence(); E = E[E.element.isin(FD.CORE)].assign(r=lambda d: d.threshold_class.map(RANK)); P = E.groupby(['sp', 'element']).r.min().reset_index()
+    ang = np.linspace(0, 2 * np.pi, 4, endpoint=False) + np.pi / 4; n = len(P)
+    for a, e in zip(ang, FD.CORE):
+        c = P[P.element == e].r.value_counts().reindex([0, 1, 2], fill_value=0); cum = 0
+        for r, al in ((0, 1.0), (1, 0.6), (2, 0.28)):
+            lo, hi = np.sqrt(cum), np.sqrt(cum + c[r]); ax.bar(a, hi - lo, width=np.pi / 2 * 0.78, bottom=lo, color=S.elem_color(e), alpha=al, lw=0); cum += c[r]
+        ax.text(a, np.sqrt(cum) + 2.2, '%s\n%d' % (e, cum), ha='center', va='center', fontsize=S.TICK - 1, color=S.fg(bg), fontweight='bold')
+    ax.set_ylim(0, 27); ax.set_yticks([]); ax.set_xticks([]); ax.spines['polar'].set_visible(False); ax.grid(False)
+    from matplotlib.patches import Rectangle
+    for j, (t, al) in enumerate((('high-range', 1.0), ('standard', 0.6), ('label-only', 0.28))):
+        x0 = 0.45 + 0.78 * j; fig.add_artist(Rectangle((x0 / w, 0.3 / h), 0.1 / w, 0.1 / h, transform=fig.transFigure, color=S.fg(bg), alpha=al, lw=0)); fig.text((x0 + 0.14) / w, 0.35 / h, t, fontsize=S.TICK - 2, color=S.fg(bg), va='center')
+    S.title(fig, 'Threshold class by element'); return fig, n
+#### fig2e.py
+"""Fig 2e: top-20 families, species with best tier T1 vs T2 (dumbbell)."""
+import numpy as np, pandas as pd
+from figures import style as S, figdata as FD, layout as L
+FIG, LET = 2, 'e'
+META = dict(chart='dumbbell', data=['release/evidence.csv', 'release/species_element.csv'], filter='headline view; species counted once at best tier over all elements; top 20 families by species')
+
+
+def render():
+    w, h = L.panel_size(FIG, LET); bg = S.DEFAULT_BG[FIG]; fig = S.new_fig(w, h, bg); ax = S.axes_in(fig, left=1.05, bottom=0.5, right=0.12, top=0.45)
+    E = FD.evidence(); fam = E.drop_duplicates('sp').set_index('sp').family; t = FD.species_tier(); D = pd.DataFrame({'family': fam, 'tier': t}).dropna()
+    g = D.groupby(['family', 'tier']).size().unstack(fill_value=0).reindex(columns=['T1', 'T2'], fill_value=0); g['tot'] = g.sum(axis=1); g = g.sort_values('tot', ascending=False).head(20).iloc[::-1]
+    y = np.arange(len(g)); ax.hlines(y, g.T2, g.T1, color=S.GREY, lw=1.0); ax.scatter(g.T1, y, s=14, color=S.TIER['T1'], zorder=3, label='T1'); ax.scatter(g.T2, y, s=14, color=S.TIER['T2'], zorder=3, label='T2')
+    ax.set_yticks(y); ax.set_yticklabels(g.index, fontsize=S.TICK - 2); ax.set_xscale('symlog', linthresh=10); ax.set_xlim(0, 300); ax.set_xticks([0, 10, 30, 100, 300]); ax.set_xticklabels(['0', '10', '30', '100', '300'])
+    ax.set_xlabel('Species (n, symlog axis)'); ax.grid(axis='x', color=S.grid_color(bg), lw=S.LW_GRID); ax.set_axisbelow(True); ax.legend(loc='lower right', handletextpad=0.2)
+    S.title(fig, 'Families: T1 vs T2 species'); return fig, int(D.shape[0])
+#### fig2f.py
+"""Fig 2f: cumulative species vs number of citing articles (step)."""
+import numpy as np
+from figures import style as S, figdata as FD, layout as L
+FIG, LET = 2, 'f'
+META = dict(chart='step curve', data=['release/evidence.csv', 'release/species_element.csv'], filter='headline view; citations ordered by the number of species each cites (largest first); y = cumulative distinct species')
+
+
+def render():
+    w, h = L.panel_size(FIG, LET); bg = S.DEFAULT_BG[FIG]; fig = S.new_fig(w, h, bg); ax = S.axes_in(fig, left=0.6, bottom=0.55, right=0.15, top=0.5)
+    E = FD.evidence(); g = E.groupby('citation').sp.apply(set); order = g.map(len).sort_values(ascending=False).index; seen = set(); y = []
+    for c in order: seen |= g[c]; y.append(len(seen))
+    x = np.arange(1, len(y) + 1); tot = y[-1]; ax.step(x, y, where='post', color=S.MAIN, lw=S.LW_LINE + 0.4); ax.set_xscale('log')
+    for fr in (0.5, 0.9):
+        k = int(np.argmax(np.array(y) >= fr * tot)) + 1; ax.scatter(k, y[k - 1], s=18, color=S.TIER['T2'], zorder=3); ax.text(k * 1.25, y[k - 1] - 0.05 * tot, '%d%% of species\nin %d citations' % (fr * 100, k), fontsize=S.TICK - 2, color=S.fg(bg), va='top')
+    ax.set_xlabel('Citations, largest first (n, log axis)'); ax.set_ylabel('Cumulative species (n)'); ax.set_ylim(0, tot * 1.05); ax.grid(color=S.grid_color(bg), lw=S.LW_GRID); ax.set_axisbelow(True)
+    S.title(fig, 'Species vs citing articles'); return fig, len(y)
+#### fig2g.py
+"""Fig 2g: Block B rows of the ten largest PMIDs with cumulative share (bars + line)."""
+import numpy as np, pandas as pd
+from figures import style as S, figdata as FD, layout as L
+FIG, LET = 2, 'g'
+META = dict(chart='bar + line', data=['release/top10_pmids_by_block_b_rows.csv'], filter='top 10 PMIDs by Block B rows; share of the 1,065 Block B rows')
+
+
+def render():
+    w, h = L.panel_size(FIG, LET); bg = S.DEFAULT_BG[FIG]; fig = S.new_fig(w, h, bg); ax = S.axes_in(fig, left=0.6, bottom=0.85, right=0.6, top=0.5)
+    T = pd.read_csv(FD.REL / 'top10_pmids_by_block_b_rows.csv'); x = np.arange(len(T)); ax.bar(x, T.block_b_rows, color=S.MAIN, width=0.65, lw=0)
+    ax.set_xticks(x); ax.set_xticklabels(T.pmid.astype(str), rotation=90, fontsize=S.TICK - 2); ax.set_ylabel('Block B rows (n)'); ax2 = ax.twinx(); ax2.plot(x, T.cumulative_share_of_1065 * 100, color=S.TIER['T2'], marker='o', ms=3, lw=S.LW_LINE)
+    ax2.set_ylim(0, 100); ax2.set_ylabel('Cumulative share of 1,065 rows (%)', color=S.TIER['T2']); ax2.tick_params(colors=S.TIER['T2'], labelcolor=S.TIER['T2'])
+    for s in ('top',): ax2.spines[s].set_visible(False)
+    ax2.spines['right'].set_color(S.TIER['T2']); ax.set_xlabel('PMID, ranked by rows'); S.title(fig, 'Ten articles hold most Block B rows'); return fig, 1065
+#### fig2h.py
+"""Fig 2h: scope of evidence rows by source (100% stacked)."""
+import numpy as np, pandas as pd
+from figures import style as S, figdata as FD, layout as L
+FIG, LET = 2, 'h'
+META = dict(chart='100% stacked bars', data=['release/evidence.csv'], filter='headline view evidence rows, evidence_type x scope')
+SC = {'hyperaccumulation': S.MAIN, 'phytoremediation': '#D9A441', 'unknown': '#B8B8B8', 'other': '#5C6B7A'}
+LAB = {'block_b_label': 'Block B', 'gei_xrf_taxon': 'Gei XRF', 'gei_literature_update': 'Gei lists', 'paper_table': 'Papers'}
+
+
+def render():
+    w, h = L.panel_size(FIG, LET); bg = S.DEFAULT_BG[FIG]; fig = S.new_fig(w, h, bg); ax = S.axes_in(fig, left=0.8, bottom=0.95, right=0.15, top=0.5)
+    E = FD.evidence(); E['scope2'] = E.scope.where(E.scope.isin(['hyperaccumulation', 'phytoremediation', 'unknown']), 'other')
+    P = pd.crosstab(E.evidence_type, E.scope2).reindex(index=list(LAB), columns=list(SC), fill_value=0); Q = P.div(P.sum(axis=1), axis=0) * 100; left = np.zeros(len(Q)); y = np.arange(len(Q))[::-1]
+    for sc in SC: ax.barh(y, Q[sc], left=left, color=SC[sc], height=0.62, lw=0, label=sc); left += Q[sc].values
+    ax.set_yticks(y); ax.set_yticklabels([LAB[i] + ' (n=%d)' % P.loc[i].sum() for i in Q.index], fontsize=S.TICK - 1.5); ax.set_xlim(0, 100); ax.set_xlabel('Share of evidence rows (%)')
+    ax.legend(loc='upper center', bbox_to_anchor=(0.45, -0.28), ncol=2, handlelength=1, columnspacing=0.8); S.title(fig, 'Scope of the evidence by source'); return fig, int(P.values.sum())
+#### fig2i.py
+"""Fig 2i: previously known vs total taxa quoted by the three screens (slope)."""
+import re
+import numpy as np, pandas as pd
+from figures import style as S, figdata as FD, layout as L
+FIG, LET = 2, 'i'
+META = dict(chart='slope', data=['derived/new_vs_known_counts_papers.csv'], filter='quoted_new_vs_known rows with a previously-known count and a total (first integer of the quoted text); Queensland Mn: known 9 and total 27 taken from two quoted rows')
+
+
+def first_int(s):
+    m = re.match(r'\s*(\d+)', str(s)); return int(m.group(1)) if m else (0 if 'none known' in str(s) else None)
+
+
+def render():
+    w, h = L.panel_size(FIG, LET); bg = S.DEFAULT_BG[FIG]; fig = S.new_fig(w, h, bg); ax = S.axes_in(fig, left=0.45, bottom=0.75, right=0.9, top=0.5)
+    N = pd.read_csv(FD.DER / 'new_vs_known_counts_papers.csv', keep_default_na=False); N = N[N.row_type == 'quoted_new_vs_known']; rows = []
+    for r in N.itertuples():
+        if r.element_or_scope in FD.CORE:
+            k, t = first_int(r.previously_known_as_quoted), first_int(r.total_as_quoted)
+            if k is not None and t is not None: rows.append((r.paper.split(' ')[0], r.element_or_scope, k, t))
+    q = N[N.paper.str.startswith('Queensland')]; rows.append(('Queensland', 'Mn', first_int(q[q.element_or_scope == 'Mn (Myrtaceae)'].previously_known_as_quoted.iloc[0]), first_int(q[q.element_or_scope == 'Mn'].total_as_quoted.iloc[0])))
+    D = pd.DataFrame(rows, columns=['paper', 'element', 'known', 'total']).drop_duplicates(['paper', 'element'])
+    for r in D.itertuples():
+        ax.plot([0, 1], [r.known, r.total], color=S.elem_color(r.element), lw=S.LW_LINE, marker='o', ms=3.5)
+        ax.text(1.04, r.total, '%s %s' % (r.paper, r.element), fontsize=S.TICK - 2.5, va='center', color=S.fg(bg))
+    ax.set_xticks([0, 1]); ax.set_xticklabels(['previously\nknown', 'total\nquoted']); ax.set_xlim(-0.15, 1.05); ax.set_ylabel('Taxa (n)'); ax.set_yscale('symlog', linthresh=10); ax.set_ylim(-0.5, 130); ax.set_yticks([0, 5, 10, 30, 100]); ax.set_yticklabels(['0', '5', '10', '30', '100'])
+    S.title(fig, 'New vs known in the three screens'); return fig, len(D)

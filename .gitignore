@@ -1,0 +1,13 @@
+manuscript/
+dist/
+data_release/
+*.zip
+.env*
+node_modules/
+__pycache__/
+.next/
+_backups/
+!.env.example
+!backend/.env.example
+*.md
+!backend/data/downloads/*.md

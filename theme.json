@@ -1,0 +1,77 @@
+{
+ "source": "k-means (k=8) on 8 usable HADB images",
+ "dominant": [
+  {
+   "hex": "#F5F9F7",
+   "share": 0.23,
+   "saturation_hsl": 0.25,
+   "contrast_white": 1.06
+  },
+  {
+   "hex": "#214122",
+   "share": 0.159,
+   "saturation_hsl": 0.327,
+   "contrast_white": 11.39
+  },
+  {
+   "hex": "#8FBAC8",
+   "share": 0.146,
+   "saturation_hsl": 0.341,
+   "contrast_white": 2.09
+  },
+  {
+   "hex": "#D2D4B4",
+   "share": 0.135,
+   "saturation_hsl": 0.271,
+   "contrast_white": 1.52
+  },
+  {
+   "hex": "#667870",
+   "share": 0.114,
+   "saturation_hsl": 0.081,
+   "contrast_white": 4.68
+  },
+  {
+   "hex": "#A45B28",
+   "share": 0.085,
+   "saturation_hsl": 0.608,
+   "contrast_white": 5.11
+  },
+  {
+   "hex": "#A8B03F",
+   "share": 0.076,
+   "saturation_hsl": 0.473,
+   "contrast_white": 2.35
+  },
+  {
+   "hex": "#3579C7",
+   "share": 0.055,
+   "saturation_hsl": 0.579,
+   "contrast_white": 4.46
+  }
+ ],
+ "main": "#A45B28",
+ "accent": "#65BFEC",
+ "fallback_used": false,
+ "accent_hsl": {
+  "hue": 200,
+  "lightness": 66,
+  "saturation": 78
+ },
+ "accent_note": "sky blue; decorative only (contrast with white < 3:1); text uses main or navy",
+ "navy": "#0B2545",
+ "sky_tint": "#EAF6FC",
+ "elements": {
+  "Ni": "#0077BB",
+  "Mn": "#EE7733",
+  "Zn": "#009988",
+  "Co": "#EE3377",
+  "other": "#8C8C8C"
+ },
+ "tiers": {
+  "T1": "#A45B28",
+  "T2": "#CC3311"
+ },
+ "palette_note": "Paul Tol vibrant (colour-blind safe); one fixed colour per element across all figures and the web; other elements darkened to #8C8C8C for contrast on white",
+ "text": "#1A1A1A"
+}
