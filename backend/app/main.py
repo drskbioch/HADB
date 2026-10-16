@@ -34,6 +34,12 @@ def create_app(cfg: Optional[dict] = None) -> FastAPI:
         app.add_middleware(CORSMiddleware, allow_origins=cfg['cors'], allow_methods=['GET'], allow_headers=[], allow_credentials=False, max_age=600)
 
     @app.middleware('http')
+    async def _debug(request: Request, call_next):  # TEMPORARY DIAGNOSTIC, remove after the Vercel routing is fixed
+        if '__debug' in request.url.query:
+            return JSONResponse({'path': request.scope['path'], 'raw_path': (request.scope.get('raw_path') or b'').decode(), 'root_path': request.scope.get('root_path'), 'url': str(request.url), 'headers': dict(request.headers)})
+        return await call_next(request)
+
+    @app.middleware('http')
     async def headers(request: Request, call_next):
         r = await call_next(request)
         r.headers.update({'X-Content-Type-Options': 'nosniff', 'X-Frame-Options': 'DENY', 'Referrer-Policy': 'no-referrer', 'Content-Security-Policy': "default-src 'none'; frame-ancestors 'none'",
