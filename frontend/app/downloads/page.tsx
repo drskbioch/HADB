@@ -8,8 +8,8 @@ export default function Downloads() {
   return (
     <div>
       <h1>Downloads</h1>
-      <p>Release files of HADB v1 (release candidate 3). Check the SHA256 after download. Record-level occurrence data are not distributed here; cite the GBIF download instead (see <a className="text-brand underline" href="/citation">Citation</a>).</p>
-      <p className="note">Release licence: {RELEASE_LICENSE === 'TBC' ? 'to be confirmed (TBC); do not redistribute until it is chosen' : RELEASE_LICENSE}. Zenodo DOI: to be added.</p>
+      <p>Release files of HADB v1. Check the SHA256 after download. Record-level occurrence data are not distributed here; cite the GBIF download instead (see <a className="text-brand underline" href="/citation">Citation</a>).</p>
+      <p className="note">Release licence: {RELEASE_LICENSE}.</p>
       {loading && <p aria-live="polite">Loading the file list...</p>}
       {error && <ApiNote message={error} />}
       {data && (

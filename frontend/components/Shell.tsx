@@ -76,7 +76,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
       </div>
       <footer className="border-t border-gray-200 bg-sky px-4 py-4 text-xs text-gray-700">
         <div className="mx-auto max-w-7xl">
-          <p>HADB v1 (release candidate 3). No cookies and no analytics are used on this site. Release licence: {RELEASE_LICENSE === 'TBC' ? 'to be confirmed (TBC)' : RELEASE_LICENSE}.</p>
+          <p>HADB v1. No cookies and no analytics are used on this site. Release licence: {RELEASE_LICENSE}.</p>
           <p className="mt-1">Occurrence data: GBIF.org (13 October 2026) GBIF Occurrence Download https://doi.org/10.15468/dl.kb25da</p>
         </div>
       </footer>

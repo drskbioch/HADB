@@ -24,16 +24,13 @@ export default function Statistics() {
         return (
           <section key={f.n} aria-labelledby={`f${f.n}`} className="mb-10">
             <h2 id={`f${f.n}`}>{f.title}</h2>
-            {have ? (
+            {have && (
               <Image src={`/figures/${file}`} alt={`${f.title}. ${f.text}`} width={1600} height={Math.round(1600 * (f.n < 4 ? 11160 : 11280) / 8640)} className="h-auto w-full max-w-3xl rounded border border-gray-200" />
-            ) : (
-              <div role="img" aria-label={`${f.title} (placeholder)`} className="flex h-64 max-w-3xl items-center justify-center rounded border-2 border-dashed border-gray-400 bg-sky p-4 text-center text-sm text-gray-700">Figure {f.n} will appear here when the web copy is added (run scripts/copy_figures.py).</div>
             )}
             <p className="mt-2 text-sm">{f.text}</p>
           </section>
         );
       })}
-      <p className="note">Caveats: screening bias; non-commercial GBIF records are excluded; capitals and institutions were not tested in the cleaning; bio12 is saturated at 6,553.5 mm in the wettest places; ultramafic status is not assessed (no coverage outside the Americas) and is not shown.</p>
     </div>
   );
 }

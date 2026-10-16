@@ -12,7 +12,7 @@ export function useApi<T>(path: string, params?: Params): State<T> {
     setState((s) => ({ ...s, loading: true, error: null }));
     api<T>(path, params, ctl.signal)
       .then((data) => setState({ data, error: null, loading: false }))
-      .catch((e: Error) => { if (e.name !== 'AbortError') setState({ data: null, error: e.message === 'Failed to fetch' ? 'The database service is not reachable right now.' : e.message, loading: false }); });
+      .catch((e: Error) => { if (e.name !== 'AbortError') setState({ data: null, error: e.message === 'Failed to fetch' ? 'Please reload the page.' : e.message, loading: false }); });
     return () => ctl.abort();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);

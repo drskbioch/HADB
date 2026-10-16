@@ -14,8 +14,7 @@ export default function Home() {
           <p className="mb-0"><Link href="/browse" className="btn">Browse the database</Link> <Link href="/about" className="ml-3 underline">About HADB</Link></p>
         </div>
       </section>
-      <section aria-labelledby="now" className="mt-6">
-        <h2 id="now" className="!mt-0">The database now</h2>
+      <section aria-label="HADB in numbers" className="mt-6">
         <StatsStrip />
       </section>
       <section aria-labelledby="start" className="mt-6">
@@ -27,7 +26,6 @@ export default function Home() {
         </ul>
         <p className="mt-4">Or read how the evidence is graded in <Link href="/evidence-tiers" className="text-brand underline">Evidence and tiers</Link>, see the paper figures on the <Link href="/statistics" className="text-brand underline">Statistics</Link> page, or <Link href="/downloads" className="text-brand underline">download the data</Link>.</p>
       </section>
-      <p className="note mt-6">This is a release candidate: the data licence has not been chosen yet and the site is not indexed by search engines.</p>
     </div>
   );
 }

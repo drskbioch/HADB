@@ -9,7 +9,7 @@ export default function About() {
   return (
     <div>
       <h1>About HADB</h1>
-      <p>HADB (Hyperaccumulator Database) is a table of which plant species are reported to accumulate or hyperaccumulate which chemical elements, with the evidence behind each statement. Version 1 is release candidate 3 of the data and was built from the literature-mined HADB table (Block B), the species tables of Gei et al. (2020) for New Caledonia, and two regional papers (Sabah and Queensland).</p>
+      <p>HADB (Hyperaccumulator Database) is a table of which plant species are reported to accumulate or hyperaccumulate which chemical elements, with the evidence behind each statement. Version 1 was built from the literature-mined HADB table (Block B), the species tables of Gei et al. (2020) for New Caledonia, and two regional papers (Sabah and Queensland).</p>
       <StatsStrip />
       <h2>Contents</h2>
       <ul className="list">
@@ -40,7 +40,6 @@ export default function About() {
         <li>CHELSA bio12 is saturated at 6,553.5 mm in the wettest places (20 native cells of the primary basis in v1); the true rainfall there is higher. Soil pH is SoilGrids stored value divided by 10; some cells have no value.</li>
         <li>Ultramafic substrate: {ULTRAMAFIC_TEXT}. The available layers cover the Americas only, so it is never shown as zero.</li>
         <li>The native-range filter follows the WCVP distribution; for example <em>Noccaea caerulescens</em> is listed as introduced in Scandinavia and <em>Nicotiana tabacum</em> as native only in Bolivia, so those species have few native cells.</li>
-        <li>No release licence is chosen yet; several inputs have unknown redistribution status.</li>
       </ul>
       <p className="note">Occurrence data: {GBIF_CITATION}</p>
     </div>

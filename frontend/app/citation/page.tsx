@@ -15,7 +15,7 @@ export default function Citation() {
     <div>
       <h1>Citation and versions</h1>
       <h2>How to cite</h2>
-      <p>HADB: Hyperaccumulator Database, version 1. Plant &amp; Cell Physiology database paper (in preparation). Zenodo DOI: to be added. Release licence: {RELEASE_LICENSE === 'TBC' ? 'to be confirmed (TBC)' : RELEASE_LICENSE}.</p>
+      <p>HADB: Hyperaccumulator Database, version 1. Release licence: {RELEASE_LICENSE}.</p>
       <p>Occurrence data used for the environment summaries: <strong>{GBIF_CITATION}</strong></p>
       <p>Please also cite the sources of the evidence you use; every evidence row carries its citation (PMID or DOI). Names follow the World Checklist of Vascular Plants (WCVP, Royal Botanic Gardens, Kew); climate is CHELSA V2.1, soil pH is SoilGrids 2.0, regions are WGSRPD (TDWG).</p>
       <h2>This version</h2>
