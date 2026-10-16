@@ -1,6 +1,7 @@
 """HADB public API (read-only). FastAPI, SQLite opened read-only, parameterised queries, validated input, security headers, CORS allowlist.
 Public scope: species, element, class, tier, scope, citations, names, environment summaries. No concentration values, no GBIF points or coordinates."""
 import json, os, sqlite3
+from urllib.parse import urlencode
 from pathlib import Path
 from typing import Annotated, Literal, Optional
 from fastapi import FastAPI, HTTPException, Path as PathParam, Query, Request
@@ -34,9 +35,12 @@ def create_app(cfg: Optional[dict] = None) -> FastAPI:
         app.add_middleware(CORSMiddleware, allow_origins=cfg['cors'], allow_methods=['GET'], allow_headers=[], allow_credentials=False, max_age=600)
 
     @app.middleware('http')
-    async def _debug(request: Request, call_next):  # TEMPORARY DIAGNOSTIC, remove after the Vercel routing is fixed
-        if '__debug' in request.url.query:
-            return JSONResponse({'path': request.scope['path'], 'raw_path': (request.scope.get('raw_path') or b'').decode(), 'root_path': request.scope.get('root_path'), 'url': str(request.url), 'headers': dict(request.headers)})
+    async def restore_path(request: Request, call_next):
+        # On Vercel, vercel.json rewrites every path to /api/index?__p=<original path> and the function sees only /api/index; give the router the original path back.
+        if request.scope['path'] == '/api/index' and '__p' in request.query_params:
+            path = '/' + request.query_params['__p'].lstrip('/')
+            rest = [(k, v) for k, v in request.query_params.multi_items() if k != '__p']
+            request.scope['path'] = path; request.scope['raw_path'] = path.encode(); request.scope['query_string'] = urlencode(rest).encode()
         return await call_next(request)
 
     @app.middleware('http')
