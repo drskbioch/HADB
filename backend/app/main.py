@@ -15,7 +15,7 @@ View = Literal['headline', 'all']
 Element = Annotated[str, Query(pattern=r'^[A-Z][a-z]?$', description='chemical symbol, e.g. Ni')]
 TextQ = Annotated[str, Query(min_length=2, max_length=80, pattern=r'^[^\x00-\x1f%_\\]+$', description='name search (no wildcards)')]
 NameQ = Annotated[str, Query(min_length=2, max_length=60, pattern=r'^[A-Za-z×][A-Za-z× \-]*$')]
-UNLICENSED = 'Release licence to be confirmed (TBC); see /api/v1/versions.'
+UNLICENSED = 'Release licence: CC BY 4.0; see /api/v1/versions.'
 ULTRAMAFIC = 'not assessed (no coverage outside the Americas)'
 INSUFFICIENT = 'insufficient records (fewer than 20 native cells; no environment statistics)'
 CORE = ['Ni', 'Mn', 'Zn', 'Co', 'Cd', 'Se']
@@ -23,7 +23,7 @@ CORE = ['Ni', 'Mn', 'Zn', 'Co', 'Cd', 'Se']
 
 def settings():
     return dict(db=os.environ.get('HADB_DB_PATH') or str(HERE / 'data' / 'hadb.sqlite'), downloads=os.environ.get('HADB_DOWNLOADS_DIR') or str(HERE / 'data' / 'downloads'),
-                cors=[o.strip() for o in (os.environ.get('HADB_CORS_ORIGINS') or '').split(',') if o.strip()])
+                cors=[o.strip() for o in (os.environ.get('HADB_CORS_ORIGINS') or 'https://hadb.habdsk.org').split(',') if o.strip()])
 
 
 def create_app(cfg: Optional[dict] = None) -> FastAPI:

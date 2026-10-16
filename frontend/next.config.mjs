@@ -1,4 +1,4 @@
-// Contact Us: /contact redirects (307, not permanent) to the HADB site; the nav link keeps the /contact URL.
+// Contact Us: /contact redirects (307, not permanent) to the HADB site (https); the nav link keeps the /contact URL.
 const isPublicRelease = process.env.NEXT_PUBLIC_PUBLIC_RELEASE === '1';
 
 /** @type {import('next').NextConfig} */
@@ -7,7 +7,7 @@ const nextConfig = {
   poweredByHeader: false,
   images: { unoptimized: true },
   async redirects() {
-    return [{ source: '/contact', destination: 'http://habdsk.org/', permanent: false }];
+    return [{ source: '/contact', destination: 'https://habdsk.org/', permanent: false }];
   },
   async headers() {
     const h = [

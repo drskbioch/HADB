@@ -8,11 +8,13 @@ if (licence === 'TBC' && !allow) {
 }
 console.log('licence guard: release licence = %s%s', licence, licence === 'TBC' ? ' (allowed by ALLOW_TBC_LICENSE=1; site stays noindex)' : '');
 
-// On Vercel the site must point at the real HTTPS API, never at the localhost default.
+// On Vercel the site must point at an HTTPS API, never at the localhost default. If the variable is unset the build uses the production API (lib/api.ts).
 if (process.env.VERCEL === '1') {
   const base = (process.env.NEXT_PUBLIC_API_BASE || '').trim();
-  if (!base.startsWith('https://')) {
-    console.error('\nBUILD STOPPED: NEXT_PUBLIC_API_BASE must be the HTTPS URL of the API on Vercel (found: "%s").\n', base || 'not set');
+  if (!base) {
+    console.log('api guard: NEXT_PUBLIC_API_BASE is not set; using the default https://api.habdsk.org');
+  } else if (!base.startsWith('https://')) {
+    console.error('\nBUILD STOPPED: NEXT_PUBLIC_API_BASE must be the HTTPS URL of the API on Vercel (found: "%s").\n', base);
     process.exit(1);
   }
 }

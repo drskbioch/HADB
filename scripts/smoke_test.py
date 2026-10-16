@@ -47,7 +47,7 @@ def main():
             check('page %s sidebar links' % p, all(('href="%s"' % x) in h for x in ('/about', '/browse', '/statistics', '/evidence-tiers', '/downloads', '/api-docs', '/citation', '/contact')))
             check('page %s element shortcuts' % p, all(('/browse?element=%s' % e) in h for e in ('Ni', 'Mn', 'Zn', 'Co')) and all(('/browse?tier=%s' % t) in h for t in ('T1', 'T2')))
             for img in re.findall(r'<img[^>]*>', h): check('img alt on %s' % p, ' alt="' in img and ' alt=""' not in img, img[:80])
-        r = requests.get(WEB + '/contact', allow_redirects=False); check('contact redirect 307', r.status_code == 307 and r.headers.get('location', '').startswith('http://habdsk.org'), (r.status_code, r.headers.get('location')))
+        r = requests.get(WEB + '/contact', allow_redirects=False); check('contact redirect 307', r.status_code == 307 and r.headers.get('location', '').startswith('https://habdsk.org'), (r.status_code, r.headers.get('location')))
         check('404 page', requests.get(WEB + '/no-such-page').status_code == 404)
         t = requests.get(WEB + '/robots.txt').text; check('robots disallows while private', 'Disallow: /' in t)
         for n in (2, 3, 4, 5): check('figure copy %d' % n, requests.get(WEB + '/figures/figure%d.png' % n).status_code == 200)
