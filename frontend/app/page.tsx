@@ -1,6 +1,6 @@
 import Link from 'next/link';
+import ElementCards from '@/components/ElementCards';
 import StatsStrip from '@/components/StatsStrip';
-import { CORE_ELEMENTS, elementColor } from '@/lib/elements';
 
 export default function Home() {
   return (
@@ -17,11 +17,8 @@ export default function Home() {
       </section>
       <section aria-labelledby="start" className="mt-6">
         <h2 id="start">Start with an element</h2>
-        <ul className="flex flex-wrap gap-3">
-          {CORE_ELEMENTS.map((e) => (
-            <li key={e}><Link href={`/browse?element=${e}`} className="card flex w-28 items-center gap-2 hover:border-brand"><span aria-hidden="true" className="inline-block h-4 w-4 rounded-full" style={{ background: elementColor(e) }} /><span className="text-lg font-bold">{e}</span></Link></li>
-          ))}
-        </ul>
+        <p>Each card shows the species with that element in the headline view, split by evidence tier (T1 strongest). Select one to browse its species.</p>
+        <ElementCards />
         <p className="mt-4">Or read how the evidence is graded in <Link href="/evidence-tiers" className="text-brand underline">Evidence and tiers</Link> or <Link href="/downloads" className="text-brand underline">download the data</Link>.</p>
       </section>
     </div>
