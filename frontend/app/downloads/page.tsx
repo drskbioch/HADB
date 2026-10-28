@@ -15,7 +15,7 @@ export default function Downloads() {
       {data && (
         <div className="overflow-x-auto"><table className="data"><caption className="sr-only">Release files</caption>
           <thead><tr><th scope="col">File</th><th scope="col">What it is</th><th scope="col">Size (bytes)</th><th scope="col">SHA256</th></tr></thead>
-          <tbody>{data.items.map((d) => (
+          <tbody>{data.items.filter((d) => !d.name.toLowerCase().endsWith('.md')).map((d) => (
             <tr key={d.name}><td><a className="font-semibold text-brand underline" href={`${API_BASE}/api/v1/downloads/${encodeURIComponent(d.name)}`}>{d.name}</a></td><td>{d.description}</td><td>{d.bytes.toLocaleString('en-US')}</td><td className="break-all font-mono text-xs">{d.sha256}</td></tr>))}</tbody></table></div>
       )}
     </div>
