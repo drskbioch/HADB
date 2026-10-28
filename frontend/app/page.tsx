@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import StatsStrip from '@/components/StatsStrip';
 import { CORE_ELEMENTS, elementColor } from '@/lib/elements';
@@ -6,10 +5,9 @@ import { CORE_ELEMENTS, elementColor } from '@/lib/elements';
 export default function Home() {
   return (
     <div>
-      <section className="overflow-hidden rounded-lg bg-navy text-white">
-        <Image src="/images/website-hadb.webp" alt="HADB banner: Hyperaccumulator Database title graphic" width={1900} height={828} priority className="h-auto w-full" />
+      <section className="overflow-hidden rounded-2xl border border-accent/40 bg-sky">
         <div className="p-6">
-          <h1 className="!text-white">HADB: a database of hyperaccumulator plants</h1>
+          <h1>HADB: a database of hyperaccumulator plants</h1>
           <p>HADB records which plant species are reported to accumulate or hyperaccumulate which chemical elements, with the evidence behind each statement, a tier for how strong that evidence is, and a summary of the climate and soil where the species grows. It records <strong>which</strong> elements, not how much.</p>
           <p className="mb-0"><Link href="/browse" className="btn">Browse the database</Link> <Link href="/about" className="ml-3 underline">About HADB</Link></p>
         </div>

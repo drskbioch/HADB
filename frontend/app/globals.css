@@ -4,7 +4,7 @@
 
 :root { color-scheme: light; }
 html { scroll-behavior: smooth; }
-body { font-family: Arial, Helvetica, system-ui, sans-serif; line-height: 1.55; }
+body { @apply font-sans; line-height: 1.55; background: linear-gradient(#d3e9fd, #f4fafd 480px) fixed #f4fafd; }
 main :focus { outline: none; }
 h1 { @apply mb-4 text-3xl font-bold text-navy; }
 h2 { @apply mb-3 mt-8 text-xl font-bold text-navy; }
@@ -12,11 +12,14 @@ h3 { @apply mb-2 mt-5 text-lg font-semibold text-navy; }
 p, li { @apply max-w-3xl; }
 p { @apply mb-3; }
 ul.list { @apply mb-3 ml-5 list-disc; }
-a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid #0B2545; outline-offset: 2px; }
+a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid #040486; outline-offset: 2px; }
 table.data { @apply w-full border-collapse text-sm; }
-table.data th { @apply border-b-2 border-navy bg-sky px-2 py-1.5 text-left font-semibold text-navy; }
+table.data th { @apply border-b-2 border-navy bg-skydeep px-2 py-1.5 text-left font-semibold text-navy; }
 table.data td { @apply border-b border-gray-200 px-2 py-1.5 align-top; }
-.card { @apply rounded-lg border border-gray-200 bg-white p-4 shadow-sm; }
-.btn { @apply inline-block rounded bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-navy; }
-.chip { @apply inline-flex items-center gap-1 rounded-full border border-gray-300 px-2 py-0.5 text-xs; }
+.card { @apply rounded-2xl border border-accent/40 bg-white p-4 shadow-sm; }
+.btn { @apply inline-block rounded-full bg-brand px-5 py-2 text-sm font-semibold text-white hover:bg-navy; }
+.chip { @apply inline-flex items-center gap-1 rounded-full border border-accent/60 px-2 py-0.5 text-xs; }
 .note { @apply rounded border-l-4 border-accent bg-sky p-3 text-sm; }
+/* Sidebar and network links: rounded, thin lab-blue border; hover and current page turn white with the deep-blue text. */
+.dblink { @apply block rounded-[10px] border border-accent px-2 py-1 text-sm text-ink transition-colors duration-300 hover:bg-white hover:text-navy; }
+.dblink[aria-current] { @apply bg-white font-bold text-navy; }

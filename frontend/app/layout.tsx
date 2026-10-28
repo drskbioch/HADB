@@ -1,6 +1,10 @@
 import type { Metadata } from 'next';
+import { Roboto } from 'next/font/google';
 import './globals.css';
 import Shell from '@/components/Shell';
+
+// Self-hosted at build time: the browser makes no request to Google.
+const roboto = Roboto({ subsets: ['latin'], weight: ['400', '700'], display: 'swap', variable: '--font-roboto' });
 
 const isPublic = process.env.NEXT_PUBLIC_PUBLIC_RELEASE === '1';
 
@@ -12,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={roboto.variable}>
       <body>
         <Shell>{children}</Shell>
       </body>

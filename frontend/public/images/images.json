@@ -4,5 +4,13 @@
   "bytes": 212494,
   "source_sha256": "F0776DB875BD6FB16ACE238B16D5CEBBD8294C5D7AF251B278F2458FEAE97991",
   "alt": "Draft: HADB banner: Hyperaccumulator Database title graphic (check and edit)"
+ },
+ {
+  "file": "hadb-banner.webp",
+  "bytes": 294112,
+  "source_file": "HADB_ Hyper Accumulators Science Banner.png",
+  "source_sha256": "32D6F1EB5247AF85CC599BA2AB430285F27AA7692D70607C446602810D7FACCF",
+  "note": "Cropped to the frame, corners made transparent, converted to WebP",
+  "alt": "HADB: Hyper Accumulators Data Base. A comprehensive resource for metal hyperaccumulator plants and their elemental accumulation. S Khan Lab."
  }
 ]
