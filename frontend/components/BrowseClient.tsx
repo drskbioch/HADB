@@ -66,7 +66,7 @@ export default function BrowseClient() {
         <div className="overflow-x-auto">
           <table className="data">
             <caption className="sr-only">Species matching the filters</caption>
-            <thead><tr><th scope="col">Species</th><th scope="col">Family</th><th scope="col">Best tier</th><th scope="col">Elements</th><th scope="col">Evidence rows</th><th scope="col">Environment</th></tr></thead>
+            <thead><tr><th scope="col">Species</th><th scope="col">Family</th><th scope="col">Best tier</th><th scope="col">Elements</th><th scope="col">Evidence rows</th></tr></thead>
             <tbody>
               {list.data.items.map((s) => (
                 <tr key={s.species_id}>
@@ -75,10 +75,9 @@ export default function BrowseClient() {
                   <td><span className="chip">{s.best_tier ?? 'none'}</span></td>
                   <td className="space-x-1">{s.elements.slice(0, 8).map((e) => (<span key={e} className="chip"><span aria-hidden="true" className="inline-block h-2.5 w-2.5 rounded-full" style={{ background: elementColor(e) }} />{e}</span>))}{s.elements.length > 8 && <span className="text-xs">+{s.elements.length - 8}</span>}</td>
                   <td>{s.n_evidence}</td>
-                  <td className="text-xs">{s.env_status === 'ok' ? 'summary available' : s.env_status}</td>
                 </tr>
               ))}
-              {list.data.items.length === 0 && <tr><td colSpan={6}>No species match these filters.</td></tr>}
+              {list.data.items.length === 0 && <tr><td colSpan={5}>No species match these filters.</td></tr>}
             </tbody>
           </table>
         </div>

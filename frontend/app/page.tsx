@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import ElementCards from '@/components/ElementCards';
+import FamilyList from '@/components/FamilyList';
 import StatsStrip from '@/components/StatsStrip';
 
 export default function Home() {
@@ -20,6 +21,10 @@ export default function Home() {
         <p>Each card shows the species with that element in the headline view, split by evidence tier (T1 strongest). Select one to browse its species.</p>
         <ElementCards />
         <p className="mt-4">Or read how the evidence is graded in <Link href="/evidence-tiers" className="text-brand underline">Evidence and tiers</Link> or <Link href="/downloads" className="text-brand underline">download the data</Link>.</p>
+      </section>
+      <section aria-labelledby="families" className="mt-6">
+        <h2 id="families">Largest plant families</h2>
+        <FamilyList />
       </section>
     </div>
   );
